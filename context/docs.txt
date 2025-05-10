@@ -1,0 +1,3007 @@
+<page>
+  <title>Antoinegtir/bereal-clone | DeepWiki</title>
+  <url>https://deepwiki.com/Antoinegtir/bereal-clone</url>
+  <content>Overview
+--------
+
+Relevant source files
+
+*   [README.md](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/README.md)
+*   [screenshot/birth.png](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/screenshot/birth.png)
+*   [screenshot/feed.png](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/screenshot/feed.png)
+*   [screenshot/grid.png](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/screenshot/grid.png)
+*   [screenshot/profiles.png](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/screenshot/profiles.png)
+*   [screenshot/request.png](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/screenshot/request.png)
+*   [screenshot/search.png](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/screenshot/search.png)
+
+ReBeal is a clone of the BeReal social network application built with Flutter and Firebase, designed to demonstrate how such a real-time photo sharing social app can be implemented. This page provides a high-level introduction to the system architecture, core features, and technical components of the application.
+
+Purpose and Scope
+-----------------
+
+The ReBeal project demonstrates a full-featured social media application where users can:
+
+*   Create an account and manage their profile
+*   Take simultaneous photos with front and back cameras
+*   Share these posts with friends at designated times
+*   Discover and connect with other users
+*   View a feed of friends' posts
+
+The application was developed as an educational project to explore Flutter's capabilities for cross-platform development integrated with Firebase backend services. It was created as a 48-hour challenge to clone the most essential features of the BeReal social network.
+
+Sources: [README.md6-9](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/README.md#L6-L9)
+
+Technical Stack
+---------------
+
+ReBeal leverages the following technologies:
+
+| Component | Technology |
+| --- | --- |
+| Frontend | Flutter/Dart |
+| Backend | Firebase (Auth, Realtime Database, Storage) |
+| Containerization | Docker, Kubernetes |
+| Platforms | iOS, Android, Web, MacOS |
+
+Sources: [README.md40-45](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/README.md#L40-L45)
+
+System Architecture
+-------------------
+
+ReBeal follows a layered architecture pattern that separates concerns between presentation, business logic, and data access.
+
+### High-Level Architecture Diagram
+
+The system architecture consists of four main layers, each with specific responsibilities:
+
+1.  **User Interface Layer**: Manages the visual presentation and user interactions.
+2.  **Business Logic Layer**: Handles application state, authentication, post management, and notifications.
+3.  **Data Layer**: Interfaces with Firebase services and local storage for data persistence.
+4.  **Platform Integration**: Manages platform-specific features like camera access and configurations.
+
+Each layer communicates primarily with adjacent layers, maintaining a clean separation of concerns. For more detailed information about state management, see [State Management](https://deepwiki.com/Antoinegtir/bereal-clone/2.1-state-management).
+
+Sources: [README.md8-9](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/README.md#L8-L9)
+
+Core Features
+-------------
+
+### Authentication System
+
+The authentication flow starts with checking if a user is already logged in. New users progress through a multi-step registration process, collecting their name, birth date, creating their account, requesting contacts access, and setting up notifications.
+
+For detailed information about the authentication implementation, see [Authentication System](https://deepwiki.com/Antoinegtir/bereal-clone/4-authentication-system).
+
+Sources: [README.md19-25](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/README.md#L19-L25)
+
+### Post Creation System
+
+The post creation flow is a key feature of ReBeal. Users take two photos simultaneously (front and back camera), which are then uploaded to Firebase Storage. A post model containing the image URLs is created and stored in Firebase Realtime Database, and the UI is updated to display the new post.
+
+For more information about post management, see [Post Management](https://deepwiki.com/Antoinegtir/bereal-clone/5-post-management).
+
+Sources: [README.md26-37](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/README.md#L26-L37)
+
+State Management
+----------------
+
+ReBeal uses the Provider pattern for state management, with separate state containers for different functional areas:
+
+*   **AuthState**: Manages user authentication and profile information
+*   **PostState**: Handles post creation, retrieval, and updates
+*   **SearchState**: Manages user search functionality and results
+
+Each state container interacts with the appropriate Firebase services and data models, providing a clean interface for the UI layer to consume.
+
+For more detailed information about state management, see [State Management](https://deepwiki.com/Antoinegtir/bereal-clone/2.1-state-management).
+
+Sources: [README.md38-42](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/README.md#L38-L42)
+
+User Interface Structure
+------------------------
+
+The UI hierarchy begins with the `MyApp` component that provides state management through `MultiProvider`. The main navigation flow starts with `SplashPage` and transitions to `HomePage`, which contains various views for post display, user search, and profile management.
+
+For more information about the user interface components, see [User Interface](https://deepwiki.com/Antoinegtir/bereal-clone/3-user-interface).
+
+Sources: [README.md19-37](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/README.md#L19-L37)
+
+Firebase Integration
+--------------------
+
+Firebase provides the backend infrastructure for ReBeal, with several key services:
+
+*   **Firebase Auth**: Handles user authentication and management
+*   **Firebase Realtime Database**: Stores user data, posts, and relationships
+*   **Firebase Storage**: Stores media files (front and back camera photos)
+*   **Firebase Analytics**: Tracks usage and performance metrics
+
+The application interacts with these services through dedicated APIs, providing real-time data synchronization and offline capabilities.
+
+For more information about Firebase integration, see [Firebase Integration](https://deepwiki.com/Antoinegtir/bereal-clone/2.2-firebase-integration).
+
+Sources: [README.md8-9](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/README.md#L8-L9)
+
+Platform Support
+----------------
+
+ReBeal is a cross-platform application, supporting:
+
+*   iOS
+*   Android
+*   Web
+*   MacOS
+
+Platform-specific configurations handle capabilities and limitations of each platform, particularly around camera access, notifications, and contact permissions.
+
+For more information about platform-specific configurations, see [Platform Configuration](https://deepwiki.com/Antoinegtir/bereal-clone/6-platform-configuration).
+
+Sources: [README.md44-45](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/README.md#L44-L45)
+
+Development and Contribution
+----------------------------
+
+The project follows a structured development workflow with continuous integration and deployment:
+
+1.  Issues are created to track features or bugs
+2.  Developers create branches to implement changes
+3.  Pull requests are submitted for review
+4.  Automated tests and code analysis are run
+5.  Changes are reviewed and merged
+6.  Deployment occurs through the CI/CD pipeline
+
+For more information about the development process, see [Development and Contribution](https://deepwiki.com/Antoinegtir/bereal-clone/7-development-and-contribution).
+
+Sources: [README.md8-9](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/README.md#L8-L9)
+
+Getting Started
+---------------
+
+To run the project locally:
+
+1.  Install the Flutter engine from [Flutter's official documentation](https://docs.flutter.dev/get-started/install)
+2.  Clone the repository
+3.  Run `flutter run` in the root folder of the project
+
+Sources: [README.md47-51](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/README.md#L47-L51)
+
+Summary
+-------
+
+ReBeal demonstrates how to build a full-featured social media application using Flutter and Firebase. The application follows a layered architecture with clean separation of concerns, uses Provider for state management, and integrates deeply with Firebase services for backend functionality.
+
+Key features include user authentication, dual-camera photo capture, post creation and display, user discovery, and profile management. The app is designed for cross-platform deployment, with specific configurations for iOS, Android, Web, and MacOS.</content>
+</page>
+
+<page>
+  <title>Antoinegtir/bereal-clone | DeepWiki</title>
+  <url>https://deepwiki.com/Antoinegtir/bereal-clone/1-overview</url>
+  <content>Overview
+--------
+
+Relevant source files
+
+*   [README.md](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/README.md)
+*   [screenshot/birth.png](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/screenshot/birth.png)
+*   [screenshot/feed.png](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/screenshot/feed.png)
+*   [screenshot/grid.png](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/screenshot/grid.png)
+*   [screenshot/profiles.png](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/screenshot/profiles.png)
+*   [screenshot/request.png](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/screenshot/request.png)
+*   [screenshot/search.png](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/screenshot/search.png)
+
+ReBeal is a clone of the BeReal social network application built with Flutter and Firebase, designed to demonstrate how such a real-time photo sharing social app can be implemented. This page provides a high-level introduction to the system architecture, core features, and technical components of the application.
+
+Purpose and Scope
+-----------------
+
+The ReBeal project demonstrates a full-featured social media application where users can:
+
+*   Create an account and manage their profile
+*   Take simultaneous photos with front and back cameras
+*   Share these posts with friends at designated times
+*   Discover and connect with other users
+*   View a feed of friends' posts
+
+The application was developed as an educational project to explore Flutter's capabilities for cross-platform development integrated with Firebase backend services. It was created as a 48-hour challenge to clone the most essential features of the BeReal social network.
+
+Sources: [README.md6-9](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/README.md#L6-L9)
+
+Technical Stack
+---------------
+
+ReBeal leverages the following technologies:
+
+| Component | Technology |
+| --- | --- |
+| Frontend | Flutter/Dart |
+| Backend | Firebase (Auth, Realtime Database, Storage) |
+| Containerization | Docker, Kubernetes |
+| Platforms | iOS, Android, Web, MacOS |
+
+Sources: [README.md40-45](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/README.md#L40-L45)
+
+System Architecture
+-------------------
+
+ReBeal follows a layered architecture pattern that separates concerns between presentation, business logic, and data access.
+
+### High-Level Architecture Diagram
+
+The system architecture consists of four main layers, each with specific responsibilities:
+
+1.  **User Interface Layer**: Manages the visual presentation and user interactions.
+2.  **Business Logic Layer**: Handles application state, authentication, post management, and notifications.
+3.  **Data Layer**: Interfaces with Firebase services and local storage for data persistence.
+4.  **Platform Integration**: Manages platform-specific features like camera access and configurations.
+
+Each layer communicates primarily with adjacent layers, maintaining a clean separation of concerns. For more detailed information about state management, see [State Management](https://deepwiki.com/Antoinegtir/bereal-clone/2.1-state-management).
+
+Sources: [README.md8-9](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/README.md#L8-L9)
+
+Core Features
+-------------
+
+### Authentication System
+
+The authentication flow starts with checking if a user is already logged in. New users progress through a multi-step registration process, collecting their name, birth date, creating their account, requesting contacts access, and setting up notifications.
+
+For detailed information about the authentication implementation, see [Authentication System](https://deepwiki.com/Antoinegtir/bereal-clone/4-authentication-system).
+
+Sources: [README.md19-25](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/README.md#L19-L25)
+
+### Post Creation System
+
+The post creation flow is a key feature of ReBeal. Users take two photos simultaneously (front and back camera), which are then uploaded to Firebase Storage. A post model containing the image URLs is created and stored in Firebase Realtime Database, and the UI is updated to display the new post.
+
+For more information about post management, see [Post Management](https://deepwiki.com/Antoinegtir/bereal-clone/5-post-management).
+
+Sources: [README.md26-37](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/README.md#L26-L37)
+
+State Management
+----------------
+
+ReBeal uses the Provider pattern for state management, with separate state containers for different functional areas:
+
+*   **AuthState**: Manages user authentication and profile information
+*   **PostState**: Handles post creation, retrieval, and updates
+*   **SearchState**: Manages user search functionality and results
+
+Each state container interacts with the appropriate Firebase services and data models, providing a clean interface for the UI layer to consume.
+
+For more detailed information about state management, see [State Management](https://deepwiki.com/Antoinegtir/bereal-clone/2.1-state-management).
+
+Sources: [README.md38-42](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/README.md#L38-L42)
+
+User Interface Structure
+------------------------
+
+The UI hierarchy begins with the `MyApp` component that provides state management through `MultiProvider`. The main navigation flow starts with `SplashPage` and transitions to `HomePage`, which contains various views for post display, user search, and profile management.
+
+For more information about the user interface components, see [User Interface](https://deepwiki.com/Antoinegtir/bereal-clone/3-user-interface).
+
+Sources: [README.md19-37](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/README.md#L19-L37)
+
+Firebase Integration
+--------------------
+
+Firebase provides the backend infrastructure for ReBeal, with several key services:
+
+*   **Firebase Auth**: Handles user authentication and management
+*   **Firebase Realtime Database**: Stores user data, posts, and relationships
+*   **Firebase Storage**: Stores media files (front and back camera photos)
+*   **Firebase Analytics**: Tracks usage and performance metrics
+
+The application interacts with these services through dedicated APIs, providing real-time data synchronization and offline capabilities.
+
+For more information about Firebase integration, see [Firebase Integration](https://deepwiki.com/Antoinegtir/bereal-clone/2.2-firebase-integration).
+
+Sources: [README.md8-9](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/README.md#L8-L9)
+
+Platform Support
+----------------
+
+ReBeal is a cross-platform application, supporting:
+
+*   iOS
+*   Android
+*   Web
+*   MacOS
+
+Platform-specific configurations handle capabilities and limitations of each platform, particularly around camera access, notifications, and contact permissions.
+
+For more information about platform-specific configurations, see [Platform Configuration](https://deepwiki.com/Antoinegtir/bereal-clone/6-platform-configuration).
+
+Sources: [README.md44-45](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/README.md#L44-L45)
+
+Development and Contribution
+----------------------------
+
+The project follows a structured development workflow with continuous integration and deployment:
+
+1.  Issues are created to track features or bugs
+2.  Developers create branches to implement changes
+3.  Pull requests are submitted for review
+4.  Automated tests and code analysis are run
+5.  Changes are reviewed and merged
+6.  Deployment occurs through the CI/CD pipeline
+
+For more information about the development process, see [Development and Contribution](https://deepwiki.com/Antoinegtir/bereal-clone/7-development-and-contribution).
+
+Sources: [README.md8-9](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/README.md#L8-L9)
+
+Getting Started
+---------------
+
+To run the project locally:
+
+1.  Install the Flutter engine from [Flutter's official documentation](https://docs.flutter.dev/get-started/install)
+2.  Clone the repository
+3.  Run `flutter run` in the root folder of the project
+
+Sources: [README.md47-51](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/README.md#L47-L51)
+
+Summary
+-------
+
+ReBeal demonstrates how to build a full-featured social media application using Flutter and Firebase. The application follows a layered architecture with clean separation of concerns, uses Provider for state management, and integrates deeply with Firebase services for backend functionality.
+
+Key features include user authentication, dual-camera photo capture, post creation and display, user discovery, and profile management. The app is designed for cross-platform deployment, with specific configurations for iOS, Android, Web, and MacOS.</content>
+</page>
+
+<page>
+  <title>State Management | Antoinegtir/bereal-clone | DeepWiki</title>
+  <url>https://deepwiki.com/Antoinegtir/bereal-clone/2.1-state-management</url>
+  <content>Relevant source files
+
+*   [client/lib/main.dart](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/main.dart)
+*   [client/lib/state/auth.state.dart](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/state/auth.state.dart)
+
+Purpose and Scope
+-----------------
+
+This document details the state management architecture of the ReBeal application. It explains how the application manages application-wide state using the Provider pattern, the different state containers, and how they interact with the UI and data layers. For information about Firebase integration specifically, see [Firebase Integration](https://deepwiki.com/Antoinegtir/bereal-clone/2.2-firebase-integration).
+
+State Management Overview
+-------------------------
+
+ReBeal uses Flutter's Provider pattern for state management. This approach centralizes state in dedicated containers that extend `ChangeNotifier`, allowing widgets to efficiently rebuild when relevant state changes occur.
+
+Sources: [client/lib/main.dart44-50](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/main.dart#L44-L50) [client/lib/state/auth.state.dart16-17](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/state/auth.state.dart#L16-L17)
+
+State Container Hierarchy
+-------------------------
+
+The application uses a hierarchical state management approach with four main state containers:
+
+Sources: [client/lib/state/auth.state.dart16-17](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/state/auth.state.dart#L16-L17) [client/lib/main.dart44-50](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/main.dart#L44-L50)
+
+### AppStates
+
+`AppStates` serves as the base class for all state containers. It provides common functionality like busy state tracking and notification mechanics.
+
+### AuthState
+
+`AuthState` manages authentication-related state, including:
+
+*   Current user information
+*   Authentication status (logged in, logged out, etc.)
+*   User profile data
+
+Key responsibilities:
+
+*   User sign-in and sign-up
+*   Profile management
+*   Authentication state persistence
+
+Sources: [client/lib/state/auth.state.dart16-238](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/state/auth.state.dart#L16-L238)
+
+### PostState
+
+`PostState` manages post-related state, including:
+
+*   User posts
+*   Feed posts
+*   Post creation and deletion
+
+### SearchState
+
+`SearchState` manages search functionality, including:
+
+*   User search results
+*   Search history
+*   Search filters
+
+State Management Implementation
+-------------------------------
+
+The state containers are registered with `MultiProvider` at the root of the widget tree:
+
+Sources: [client/lib/main.dart44-56](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/main.dart#L44-L56)
+
+State Initialization and Dependencies
+-------------------------------------
+
+The application initializes Firebase and other dependencies before setting up the state management system:
+
+Sources: [client/lib/main.dart16-37](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/main.dart#L16-L37)
+
+Data Flow Between State and Firebase
+------------------------------------
+
+The state containers interact with Firebase services for data persistence:
+
+Sources: [client/lib/state/auth.state.dart20-23](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/state/auth.state.dart#L20-L23) [client/lib/state/auth.state.dart210-237](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/state/auth.state.dart#L210-L237)
+
+State Updates and Notifications
+-------------------------------
+
+The state containers use the Observer pattern through `ChangeNotifier` to notify listeners of state changes:
+
+1.  **Direct Updates**: State containers call `notifyListeners()` when internal state changes.
+    
+2.  **Firebase Listeners**: State containers set up Firebase database listeners to react to remote changes.
+    
+
+Example from AuthState:
+
+Sources: [client/lib/state/auth.state.dart210-218](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/state/auth.state.dart#L210-L218)
+
+Accessing State in UI Components
+--------------------------------
+
+UI components access state through Provider using two main approaches:
+
+1.  **Provider.of**: For accessing state without listening to changes
+    
+2.  **Consumer**: For rebuilding widgets when specific state changes
+    
+
+State Persistence
+-----------------
+
+The application persists certain state information between sessions using SharedPreferences:
+
+Sources: [client/lib/state/auth.state.dart199-200](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/state/auth.state.dart#L199-L200) [client/lib/state/auth.state.dart215](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/state/auth.state.dart#L215-L215) [client/lib/state/auth.state.dart234](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/state/auth.state.dart#L234-L234)
+
+Summary
+-------
+
+The ReBeal app implements a comprehensive state management solution using the Provider pattern with specialized state containers. This architecture offers several advantages:
+
+1.  **Separation of concerns**: Each state container has a focused responsibility
+2.  **Testability**: State logic is decoupled from UI
+3.  **Efficient UI updates**: Only widgets that consume changed state are rebuilt
+4.  **Firebase integration**: State containers handle Firebase interactions centrally
+
+The pattern requires careful attention to:
+
+1.  When to call `notifyListeners()`
+2.  Which components should listen to which state
+3.  How to handle asynchronous state updates</content>
+</page>
+
+<page>
+  <title>System Architecture | Antoinegtir/bereal-clone | DeepWiki</title>
+  <url>https://deepwiki.com/Antoinegtir/bereal-clone/2-system-architecture</url>
+  <content>Relevant source files
+
+*   [README.md](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/README.md)
+*   [client/lib/main.dart](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/main.dart)
+*   [client/pubspec.lock](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/pubspec.lock)
+*   [client/pubspec.yaml](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/pubspec.yaml)
+*   [screenshot/birth.png](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/screenshot/birth.png)
+*   [screenshot/grid.png](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/screenshot/grid.png)
+
+Purpose and Scope
+-----------------
+
+This document provides a comprehensive overview of the ReBeal application's system architecture. It describes the high-level organization of the system, key architectural patterns, and the relationships between major components. For details about specific subsystems, please refer to the specialized documentation pages: [State Management](https://deepwiki.com/Antoinegtir/bereal-clone/2.1-state-management) and [Firebase Integration](https://deepwiki.com/Antoinegtir/bereal-clone/2.2-firebase-integration).
+
+Architectural Overview
+----------------------
+
+ReBeal is built as a cross-platform mobile application using the Flutter framework with Firebase services for backend functionality. The application follows a layered architecture pattern that separates concerns and promotes maintainability and testability.
+
+_System Layers and Component Relationships_
+
+Sources: [client/lib/main.dart1-58](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/main.dart#L1-L58) [client/pubspec.yaml1-46](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/pubspec.yaml#L1-L46)
+
+Core Architecture Components
+----------------------------
+
+The ReBeal application is built on a set of key architectural components that work together to provide the complete functionality of a BeReal-like app:
+
+_Core Architecture Components and Relationships_
+
+Sources: [client/lib/main.dart39-58](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/main.dart#L39-L58)
+
+### Application Initialization Flow
+
+The application follows a structured initialization process to set up dependencies and services:
+
+_Application Initialization Sequence_
+
+Sources: [client/lib/main.dart16-37](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/main.dart#L16-L37)
+
+State Management Architecture
+-----------------------------
+
+The application uses the Provider pattern for state management, centralizing application logic in state containers that are accessible throughout the widget tree.
+
+_State Management Architecture_
+
+Sources: [client/lib/main.dart44-49](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/main.dart#L44-L49)
+
+Data Flow Architecture
+----------------------
+
+ReBeal implements a unidirectional data flow architecture where user interactions trigger state changes, which then cascade through the component hierarchy.
+
+_Data Flow Architecture_
+
+Sources: [client/lib/main.dart44-49](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/main.dart#L44-L49)
+
+Key Subsystems
+--------------
+
+### Authentication System
+
+The authentication system manages user identity and access control through Firebase Authentication.
+
+_Authentication Flow_
+
+Sources: [client/lib/main.dart47](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/main.dart#L47-L47)
+
+### Post Management System
+
+The post management system handles creating, storing, and displaying posts with both front and back camera photos.
+
+_Post Management System_
+
+Sources: [client/lib/main.dart48](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/main.dart#L48-L48)
+
+Firebase Integration
+--------------------
+
+ReBeal integrates with several Firebase services to provide backend functionality:
+
+| Firebase Service | Purpose | Main Functionality |
+| --- | --- | --- |
+| Firebase Auth | User authentication | Sign up, login, password reset |
+| Firebase Realtime Database | Data storage | User profiles, posts, relationships |
+| Firebase Storage | Binary file storage | Profile images, post photos |
+| Firebase Analytics | Usage tracking | User behavior analysis |
+
+_Firebase Integration Architecture_
+
+Sources: [client/lib/main.dart19-31](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/main.dart#L19-L31) [client/pubspec.yaml18-21](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/pubspec.yaml#L18-L21)
+
+Cross-Platform Configuration
+----------------------------
+
+ReBeal is designed to work across multiple platforms, with specific configurations for different operating systems:
+
+_Cross-Platform Architecture_
+
+Sources: [client/lib/main.dart19-31](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/main.dart#L19-L31) [client/pubspec.yaml45](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/pubspec.yaml#L45-L45)
+
+Dependency Management
+---------------------
+
+ReBeal utilizes a variety of external packages to provide functionality:
+
+| Category | Key Packages | Purpose |
+| --- | --- | --- |
+| UI Components | animate\_do, awesome\_icons, iconsax | Visual elements and animations |
+| State Management | provider, get\_it | State management and dependency injection |
+| Firebase | firebase\_auth, firebase\_database, firebase\_storage | Backend services |
+| Camera | camera | Camera integration for capturing photos |
+| Storage | shared\_preferences, path\_provider | Local data persistence |
+| Image Processing | image\_picker, image\_cropper | Image selection and modification |
+| Social Features | share\_plus, url\_launcher | Sharing and external linking |
+
+Sources: [client/pubspec.yaml11-34](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/pubspec.yaml#L11-L34)
+
+Conclusion
+----------
+
+The ReBeal application follows a well-structured layered architecture pattern with clear separation of concerns. The use of Provider for state management centralizes business logic, while Firebase services provide robust backend functionality. The system is designed to be cross-platform compatible, with specific configurations for different operating systems.
+
+This architecture enables key features of a BeReal-like application, including user authentication, dual-camera photo capture, social feed display, and profile management.
+
+For more detailed information about specific architecture components, refer to the specialized documentation pages: [State Management](https://deepwiki.com/Antoinegtir/bereal-clone/2.1-state-management) and [Firebase Integration](https://deepwiki.com/Antoinegtir/bereal-clone/2.2-firebase-integration).</content>
+</page>
+
+<page>
+  <title>Firebase Integration | Antoinegtir/bereal-clone | DeepWiki</title>
+  <url>https://deepwiki.com/Antoinegtir/bereal-clone/2.2-firebase-integration</url>
+  <content>Relevant source files
+
+*   [client/lib/auth/signup.dart](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/auth/signup.dart)
+*   [client/lib/camera/camera.dart](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/camera/camera.dart)
+*   [client/lib/helper/shared\_prefrence\_helper.dart](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/helper/shared_prefrence_helper.dart)
+*   [client/lib/model/post.module.dart](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/model/post.module.dart)
+*   [client/lib/model/user.module.dart](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/model/user.module.dart)
+*   [client/lib/notification/notification.dart](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/notification/notification.dart)
+*   [client/pubspec.lock](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/pubspec.lock)
+*   [client/pubspec.yaml](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/pubspec.yaml)
+
+Purpose and Scope
+-----------------
+
+This document details how the ReBeal application integrates with Firebase services to provide backend functionality. It covers the configuration, implementation, and usage patterns of Firebase Authentication, Realtime Database, Storage, and Analytics within the application.
+
+For information about state management patterns used with Firebase data, see [State Management](https://deepwiki.com/Antoinegtir/bereal-clone/2.1-state-management).
+
+Firebase Services Overview
+--------------------------
+
+The ReBeal application leverages four core Firebase services:
+
+Sources: [client/pubspec.yaml17-21](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/pubspec.yaml#L17-L21) [client/lib/camera/camera.dart31-32](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/camera/camera.dart#L31-L32)
+
+Firebase Dependencies
+---------------------
+
+ReBeal relies on the following Firebase packages:
+
+| Firebase Package | Purpose |
+| --- | --- |
+| firebase\_auth | User authentication and account management |
+| firebase\_database | Storing and retrieving structured data |
+| firebase\_storage | Storing and retrieving media files (images) |
+| firebase\_analytics | Tracking user behavior and app performance |
+
+Sources: [client/pubspec.yaml17-21](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/pubspec.yaml#L17-L21)
+
+Authentication System
+---------------------
+
+### Implementation
+
+Firebase Authentication is used to manage user accounts in ReBeal. The app collects user information and credentials, then creates Firebase Authentication accounts.
+
+Sources: [client/lib/auth/signup.dart172-220](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/auth/signup.dart#L172-L220) [client/lib/helper/shared\_prefrence\_helper.dart4-24](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/helper/shared_prefrence_helper.dart#L4-L24)
+
+### User Model
+
+The `UserModel` class defines the data structure used both for Firebase authentication and database storage:
+
+Sources: [client/lib/model/user.module.dart4-116](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/model/user.module.dart#L4-L116)
+
+Database Integration
+--------------------
+
+### Realtime Database Structure
+
+ReBeal uses Firebase Realtime Database to store and sync user data and posts in real-time.
+
+Sources: [client/lib/model/post.module.dart6-44](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/model/post.module.dart#L6-L44) [client/lib/model/user.module.dart4-116](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/model/user.module.dart#L4-L116) [client/lib/camera/camera.dart87-90](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/camera/camera.dart#L87-L90)
+
+### Post Management
+
+Posts are created and stored in Firebase using the `PostModel` structure:
+
+Sources: [client/lib/model/post.module.dart6-44](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/model/post.module.dart#L6-L44)
+
+Storage Implementation
+----------------------
+
+Firebase Storage is used to store media files like profile pictures and post images (front and back camera). The implementation follows a pattern of:
+
+1.  Capturing images using device camera
+2.  Uploading files to Firebase Storage
+3.  Getting download URLs for the uploaded files
+4.  Storing those URLs in the Realtime Database
+
+Sources: [client/lib/camera/camera.dart78-90](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/camera/camera.dart#L78-L90) [client/lib/camera/camera.dart291-322](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/camera/camera.dart#L291-L322)
+
+### Storage Implementation Details
+
+The Firebase Storage integration uses the following structure:
+
+1.  Images are stored in an 'images/' directory in Firebase Storage
+2.  Filenames are derived from the local file path
+3.  Download URLs are retrieved and stored in the database
+
+Sources: [client/lib/camera/camera.dart78-85](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/camera/camera.dart#L78-L85)
+
+Analytics Integration
+---------------------
+
+Firebase Analytics is incorporated to track user behavior, app engagement, and performance metrics. The analytics service automatically collects basic usage information, and custom events can be added for more detailed tracking.
+
+Post Creation Flow
+------------------
+
+The complete flow for creating a post with Firebase integration:
+
+Sources: [client/lib/camera/camera.dart291-322](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/camera/camera.dart#L291-L322)
+
+Data Flow Between Services
+--------------------------
+
+The integration between different Firebase services is crucial to the application's functionality:
+
+Sources: [client/lib/auth/signup.dart172-220](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/auth/signup.dart#L172-L220) [client/lib/camera/camera.dart78-90](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/camera/camera.dart#L78-L90) [client/lib/camera/camera.dart291-322](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/camera/camera.dart#L291-L322)
+
+Best Practices and Patterns
+---------------------------
+
+### Security Rules
+
+Firebase Security Rules should be properly configured to protect data access:
+
+*   Authentication required for reading/writing data
+*   Path-based security for user content
+*   Validation rules for data structure
+
+### Offline Capabilities
+
+The Realtime Database supports offline data persistence, allowing the app to function even when offline:
+
+*   Local changes are synchronized when back online
+*   User can continue using critical functionality without network
+
+### Error Handling
+
+Proper error handling for Firebase operations is essential:
+
+*   Authentication failures
+*   Storage upload errors
+*   Database transaction failures
+
+Summary
+-------
+
+The Firebase integration in ReBeal provides a comprehensive backend solution that enables:
+
+1.  User authentication and management
+2.  Real-time data synchronization for posts and user profiles
+3.  Media storage for post images
+4.  Analytics for understanding user behavior
+
+This integration allows the application to focus on providing a smooth user experience while Firebase handles the complex backend infrastructure.</content>
+</page>
+
+<page>
+  <title>User Interface | Antoinegtir/bereal-clone | DeepWiki</title>
+  <url>https://deepwiki.com/Antoinegtir/bereal-clone/3-user-interface</url>
+  <content>Relevant source files
+
+*   [client/lib/common/splash.dart](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/common/splash.dart)
+*   [client/lib/pages/feed.dart](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/feed.dart)
+*   [client/lib/pages/home.dart](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/home.dart)
+*   [screenshot/feed.png](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/screenshot/feed.png)
+*   [screenshot/profiles.png](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/screenshot/profiles.png)
+*   [screenshot/request.png](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/screenshot/request.png)
+*   [screenshot/search.png](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/screenshot/search.png)
+
+This document provides a comprehensive overview of the ReBeal app's user interface architecture and component hierarchy. It explains how the different UI components are organized, how they interact with each other, and how they relate to the application's state management system. For specific details about the main screens, see [Main Screens](https://deepwiki.com/Antoinegtir/bereal-clone/3.1-main-screens). For information about post display components, see [Post Display Components](https://deepwiki.com/Antoinegtir/bereal-clone/3.2-post-display-components). For profile management interfaces, see [Profile Management UI](https://deepwiki.com/Antoinegtir/bereal-clone/3.3-profile-management-ui).
+
+UI Architecture Overview
+------------------------
+
+The ReBeal application follows a component-based UI architecture using Flutter's widget system. The UI layer is built on top of the state management layer, which communicates with the backend services through various providers.
+
+### UI Component Hierarchy
+
+Sources: [client/lib/pages/home.dart21-448](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/home.dart#L21-L448) [client/lib/common/splash.dart9-46](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/common/splash.dart#L9-L46) [client/lib/pages/feed.dart14-438](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/feed.dart#L14-L438)
+
+The UI component hierarchy follows a hierarchical structure where the `MyApp` is the root component that initializes the `MultiProvider` for state management and the `MaterialApp` for theming and navigation. The application starts with the `SplashPage`, which then routes to either the authentication flow or directly to the `HomePage` based on the user's authentication status.
+
+Core Screens and Navigation
+---------------------------
+
+### Screen Navigation Flow
+
+Sources: [client/lib/common/splash.dart35-44](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/common/splash.dart#L35-L44) [client/lib/pages/home.dart100-446](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/home.dart#L100-L446) [client/lib/pages/feed.dart46-436](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/feed.dart#L46-L436)
+
+The application's navigation flow starts at the `SplashPage`, which checks the user's authentication status. If the user is authenticated, they are directed to the `HomePage`; otherwise, they enter the authentication flow starting with the `NamePage`.
+
+The `HomePage` serves as the central hub of the application with three main tabs and navigation options to the `CameraPage`, `MyProfilePage`, and `FeedPage`. The `FeedPage` also has its own tab navigation system for different user lists.
+
+HomePage Structure
+------------------
+
+The `HomePage` is one of the most complex screens in the application, serving as the main interface for viewing BeReal posts.
+
+### HomePage UI Components
+
+Sources: [client/lib/pages/home.dart28-447](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/home.dart#L28-L447)
+
+The `HomePage` uses a `TabController` to manage its three main tabs: My Friends, Friends, and Discovery. It includes a custom bottom navigation bar with a camera button for creating new posts. The `HomePage` can switch between grid and list views of posts using the `_isGrid` state variable. The main components of the posts are rendered using either `FeedPostWidget` (for list view) or `GridPostWidget` (for grid view).
+
+The `HomePage` also maintains scroll state with a `ScrollController` to detect when users scroll down, which affects the UI by hiding or showing the tab bar.
+
+FeedPage Structure
+------------------
+
+The `FeedPage` allows users to discover and connect with friends.
+
+### FeedPage Components
+
+Sources: [client/lib/pages/feed.dart21-438](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/feed.dart#L21-L438)
+
+The `FeedPage` uses a custom segmented control for navigation between three tabs: Suggest, Friends, and Ask. Each tab displays different user lists:
+
+*   The Suggest tab shows suggested users and contacts
+*   The Friends tab displays the user's current friends
+*   The Ask tab shows incoming friend requests
+
+The page includes a search bar at the top that filters users by username. The `UserTilePage` component is used to render individual user entries across all lists.
+
+UI State Management Integration
+-------------------------------
+
+The UI components interact closely with the state management layer to ensure data consistency across the application.
+
+### UI and State Management Interaction
+
+Sources: [client/lib/pages/home.dart35-70](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/home.dart#L35-L70) [client/lib/pages/feed.dart46-68](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/feed.dart#L46-L68) [client/lib/common/splash.dart27-34](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/common/splash.dart#L27-L34)
+
+The UI components consume state through the Provider pattern, which allows them to efficiently update when the underlying data changes. Key state providers include:
+
+*   `AuthState`: Manages user authentication and profile information
+*   `PostState`: Handles post data retrieval and creation
+*   `SearchState`: Manages user search and discovery
+
+For example, the `HomePage` initializes these providers in its `initState` method and uses them to fetch data when the page loads. The UI components then consume this state to render the appropriate views.
+
+Post Display Modes
+------------------
+
+The application supports two primary modes for displaying posts: list view and grid view.
+
+### Post Display Components
+
+Sources: [client/lib/pages/home.dart86-96](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/home.dart#L86-L96) [client/lib/pages/home.dart246-324](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/home.dart#L246-L324) [client/lib/pages/home.dart416-444](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/home.dart#L416-L444)
+
+The application allows users to toggle between two post display modes:
+
+1.  **List View**: Shows full-sized posts using `FeedPostWidget`, displaying both front and back camera images, user information, and timestamps
+2.  **Grid View**: Shows thumbnail versions of posts using `GridPostWidget`, focusing primarily on the front camera image
+
+The toggle between these views is handled by the `_bodyView()` method in the `HomePage` component, which updates the `_isGrid` state variable. Each view consumes the same `PostModel` data but renders it differently.
+
+The ReBeal UI includes sophisticated scrolling behaviors and animations to enhance the user experience.
+
+### Scroll Behavior Implementation
+
+Sources: [client/lib/pages/home.dart30-84](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/home.dart#L30-L84) [client/lib/pages/home.dart176-190](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/home.dart#L176-L190)
+
+The application uses a `ScrollController` to detect when users scroll up or down, which affects the UI appearance. When scrolling down (`ScrollDirection.reverse`), the tab bar is hidden to provide more screen space for content. When scrolling up (`ScrollDirection.forward`), the tab bar reappears.
+
+The UI also includes animation effects using the `animate_do` package, with components like `FadeIn` and `FadeInUp` applied to various UI elements to create smooth transitions between states.
+
+UI Theme and Styling
+--------------------
+
+The ReBeal application uses a consistent dark theme with carefully selected colors for optimal contrast and readability.
+
+### Key UI Colors and Styles
+
+| UI Element | Color/Style | Usage |
+| --- | --- | --- |
+| App Background | `Colors.black` | Main background color |
+| TabBar Text (Selected) | `Colors.white` | Active tab indicator |
+| TabBar Text (Unselected) | `ReBealColor.ReBealLightGrey` | Inactive tab indicator |
+| Search Bar Background | `ReBealColor.ReBealDarkGrey` | Search input background |
+| Buttons | Various grays and whites | Action buttons |
+| Text | White and gray variations | Different text hierarchies |
+| Camera Button | White border circle | Central action button |
+
+Sources: [client/lib/pages/home.dart104-236](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/home.dart#L104-L236) [client/lib/pages/feed.dart69-198](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/feed.dart#L69-L198)
+
+The application uses a primarily dark theme with white and gray text for optimal contrast. The UI maintains consistency through the use of shared color constants defined in `ReBealColor`.
+
+The dark theme enhances the visibility of the user-generated content (photos) while providing a modern, sleek appearance that's in line with similar social media applications.
+
+Responsive Layout Approach
+--------------------------
+
+The ReBeal UI adapts to different screen sizes through the use of relative sizing and flexible layouts.
+
+Sources: [client/lib/pages/home.dart110-133](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/home.dart#L110-L133) [client/lib/pages/feed.dart112-116](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/feed.dart#L112-L116)
+
+The application uses Flutter's `MediaQuery` to obtain the current screen dimensions and adjusts component sizes accordingly. For example, many containers are sized using fractions of the screen width (e.g., `MediaQuery.of(context).size.width / 1.1`) rather than fixed pixel values.
+
+This approach ensures that the UI remains usable and visually consistent across a wide range of device sizes, from small phones to large tablets.
+
+Summary
+-------
+
+The ReBeal application's UI is structured as a component-based architecture using Flutter's widget system. The main screens include the `SplashPage`, `HomePage`, and `FeedPage`, with specialized components for displaying posts and user profiles. The UI is tightly integrated with the state management system through the Provider pattern, allowing for efficient updates when the underlying data changes.
+
+The application supports two main post display modes (list and grid), includes sophisticated scrolling behaviors, and uses a dark theme with consistent styling. The responsive layout approach ensures that the UI adapts to different screen sizes.
+
+Understanding this UI architecture is essential for developers working on the ReBeal application, as it forms the foundation for user interactions and visual presentation of the app's features.</content>
+</page>
+
+<page>
+  <title>Main Screens | Antoinegtir/bereal-clone | DeepWiki</title>
+  <url>https://deepwiki.com/Antoinegtir/bereal-clone/3.1-main-screens</url>
+  <content>Relevant source files
+
+*   [client/lib/common/splash.dart](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/common/splash.dart)
+*   [client/lib/pages/feed.dart](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/feed.dart)
+*   [client/lib/pages/home.dart](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/home.dart)
+
+Purpose and Scope
+-----------------
+
+This document details the primary screens of the ReBeal application: Splash Page, Home Page, and Feed Page. These screens form the core user interface that users interact with after installation. For information about authentication flow screens, see [Authentication System](https://deepwiki.com/Antoinegtir/bereal-clone/4-authentication-system), and for post creation functionality, see [Camera Integration](https://deepwiki.com/Antoinegtir/bereal-clone/5.1-camera-integration).
+
+Screen Navigation Flow
+----------------------
+
+The following diagram illustrates how users navigate between the main screens in the application:
+
+Sources: [client/lib/common/splash.dart37-44](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/common/splash.dart#L37-L44) [client/lib/pages/home.dart117-120](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/home.dart#L117-L120) [client/lib/pages/home.dart158-162](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/home.dart#L158-L162)
+
+Splash Page
+-----------
+
+The Splash Page serves as the entry point to the application. It determines if a user is already authenticated and routes them accordingly.
+
+### Key Features:
+
+*   Checks authentication status using AuthState provider
+*   Redirects authenticated users to HomePage
+*   Redirects unauthenticated users to the authentication flow starting with NamePage
+*   Executes after a brief delay (1 second)
+
+Sources: [client/lib/common/splash.dart9-46](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/common/splash.dart#L9-L46)
+
+Home Page
+---------
+
+The Home Page is the central screen users see after authentication. It provides access to posts, friends, and camera functionality.
+
+### Structure:
+
+*   **AppBar**: Contains app logo and profile icon navigation
+*   **TabBar**: Three tabs for "My Friends", "Friends", and "Discovery"
+*   **Main Content Area**: Displays posts in either grid or list format
+*   **Camera Button**: Fixed at the bottom for creating new posts
+
+### Key Features:
+
+*   Tab navigation between different post categories
+*   Toggle between grid and list view for posts
+*   Direct access to camera functionality for creating posts
+*   Navigation to profile page and friend discovery
+*   Scroll detection to hide/show UI elements
+
+Sources: [client/lib/pages/home.dart104-446](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/home.dart#L104-L446)
+
+### Post Display Modes:
+
+The Home Page offers two display modes for posts:
+
+1.  **List View**: Full-size posts displayed vertically
+    
+    *   Default view for normal browsing
+    *   Shows complete post information
+    *   Uses `FeedPostWidget` component
+2.  **Grid View**: Condensed grid of post thumbnails
+    
+    *   Activated by pull-to-refresh gesture
+    *   Provides overview of multiple posts
+    *   Uses `GridPostWidget` component
+
+Sources: [client/lib/pages/home.dart242-297](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/home.dart#L242-L297) [client/lib/pages/home.dart298-445](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/home.dart#L298-L445)
+
+Feed Page
+---------
+
+The Feed Page focuses on friend discovery and management, providing search functionality and friend request handling.
+
+### Key Features:
+
+*   Search bar for finding users
+*   Segmented control for navigating between "Suggest", "Friends", and "Ask" tabs
+*   Friend suggestions based on contacts and other criteria
+*   Friend request management
+*   User sharing functionality
+
+Sources: [client/lib/pages/feed.dart69-436](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/feed.dart#L69-L436)
+
+### Search Functionality:
+
+The Feed Page includes a robust search system:
+
+*   Real-time filtering of users as you type
+*   Reset button to clear search
+*   Display of search results with add/follow options
+*   Access to all app users for discovery
+
+Sources: [client/lib/pages/feed.dart117-189](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/feed.dart#L117-L189) [client/lib/pages/feed.dart199-216](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/feed.dart#L199-L216)
+
+Component Integration and State Management
+------------------------------------------
+
+The main screens integrate with several state providers to manage data and user interactions:
+
+| Screen | State Providers | Purpose |
+| --- | --- | --- |
+| Splash Page | AuthState | Manage authentication status and user redirection |
+| Home Page | AuthState | Access current user data |
+|  | PostState | Retrieve and display posts |
+|  | SearchState | Initialize user search data |
+| Feed Page | AuthState | Access current user's friends and followers |
+|  | SearchState | Search users and filter results |
+
+### State Initialization:
+
+Sources: [client/lib/pages/home.dart34-70](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/home.dart#L34-L70)
+
+TabBar Navigation System
+------------------------
+
+Both the Home Page and Feed Page use TabBar navigation to organize content into logical sections:
+
+### Home Page TabBar:
+
+*   **My Friends**: Displays posts from friends in the feed
+*   **Friends**: Shows friends management options
+*   **Discovery**: Displays discovery content for finding new users
+
+### Feed Page SegmentedControl:
+
+*   **Suggest**: Shows friend suggestions and contacts
+*   **Friends**: Displays current friends list
+*   **Ask**: Shows pending friend requests
+
+Sources: [client/lib/pages/home.dart176-228](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/home.dart#L176-L228) [client/lib/pages/feed.dart75-89](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/feed.dart#L75-L89)
+
+Summary
+-------
+
+The main screens of the ReBeal application provide a cohesive user experience through:
+
+1.  **Splash Page**: Entry point that handles authentication routing
+2.  **Home Page**: Central hub for viewing posts with tab-based organization
+3.  **Feed Page**: Friend discovery and management with search functionality
+
+These screens work together with various state providers to deliver a seamless user experience while maintaining the core BeReal-like functionality of capturing and viewing timed photos.</content>
+</page>
+
+<page>
+  <title>Post Display Components | Antoinegtir/bereal-clone | DeepWiki</title>
+  <url>https://deepwiki.com/Antoinegtir/bereal-clone/3.2-post-display-components</url>
+  <content>Relevant source files
+
+*   [client/lib/widget/feedpost.dart](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/widget/feedpost.dart)
+*   [client/lib/widget/gridpost.dart](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/widget/gridpost.dart)
+*   [client/lib/widget/list.dart](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/widget/list.dart)
+*   [client/lib/widget/share.dart](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/widget/share.dart)
+
+Purpose and Scope
+-----------------
+
+This document details the UI components responsible for displaying posts in the ReBeal application. The post display system is a critical part of the app's UI layer that renders posts in different formats, enabling users to view both front and back camera captures—a core feature of BeReal-like applications.
+
+For information about how posts are created, see [Post Management](https://deepwiki.com/Antoinegtir/bereal-clone/5-post-management) and for camera integration details, see [Camera Integration](https://deepwiki.com/Antoinegtir/bereal-clone/5.1-camera-integration).
+
+Component Overview
+------------------
+
+The ReBeal app employs specialized components to display posts in different contexts, primarily through two main widgets:
+
+Sources: [client/lib/widget/feedpost.dart](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/widget/feedpost.dart) [client/lib/widget/gridpost.dart](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/widget/gridpost.dart)
+
+Post Display Modes
+------------------
+
+The application supports two primary modes for displaying posts:
+
+Sources: [client/lib/widget/feedpost.dart](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/widget/feedpost.dart) [client/lib/widget/gridpost.dart](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/widget/gridpost.dart)
+
+FeedPostWidget
+--------------
+
+The `FeedPostWidget` is the primary component for displaying posts in a timeline view, showing both camera images with the ability to toggle between them.
+
+### Features
+
+*   Full-screen post display optimized for the timeline/feed view
+*   User profile information display with profile picture
+*   Location information (when available)
+*   Relative time display ("Few minutes ago", "Few hours ago")
+*   Image switching functionality between front and back camera photos
+*   Picture-in-picture style display showing both images simultaneously
+
+### Implementation
+
+The `FeedPostWidget` is implemented as a StatefulWidget to manage the image toggle state:
+
+Key implementation details:
+
+*   The widget maintains a `switcher` boolean state to track which image is displayed as the main view
+*   The `switcherFunc()` method toggles between front and back camera images
+*   Time calculation is performed to display a relative timestamp
+*   Layout uses a Stack widget to overlay the smaller image on top of the main image
+*   User interaction (tap) triggers the image swap
+
+Sources: [client/lib/widget/feedpost.dart5-144](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/widget/feedpost.dart#L5-L144)
+
+### Visual Structure
+
+The component uses a responsive layout that adapts to the device screen size:
+
+*   Post container height is set to screen height / 1.3
+*   Main image takes up most of the screen (screen height / 1.63)
+*   Small image (Picture-in-Picture) is positioned in the corner at 1/6 of screen height
+
+Sources: [client/lib/widget/feedpost.dart46-142](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/widget/feedpost.dart#L46-L142)
+
+GridPostWidget
+--------------
+
+The `GridPostWidget` provides a compact display format used in grid/gallery views of posts.
+
+### Features
+
+*   Condensed view optimized for grid layouts
+*   Single image display with ability to toggle between front/back images
+*   User name and time display overlay
+*   Rounded corners for a consistent visual style
+
+### Implementation
+
+Similar to `FeedPostWidget`, `GridPostWidget` is a StatefulWidget that manages image toggle state:
+
+Key implementation details:
+
+*   Uses the same `switcher` boolean state pattern as FeedPostWidget
+*   Simpler layout without the picture-in-picture view
+*   User information is displayed as an overlay on the image
+*   Time calculation is similar to FeedPostWidget but with slightly different formatting
+
+Sources: [client/lib/widget/gridpost.dart5-91](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/widget/gridpost.dart#L5-L91)
+
+### Visual Structure
+
+The grid post is designed to be compact and suitable for gallery-style displays.
+
+Sources: [client/lib/widget/gridpost.dart44-89](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/widget/gridpost.dart#L44-L89)
+
+Supporting Components
+---------------------
+
+### UserTilePage
+
+While not directly a post display widget, `UserTilePage` complements the post display system by providing a consistent way to display user information in list contexts.
+
+#### Features
+
+*   Displays user profile picture, display name, and username
+*   Shows an "ADD" button for users not in the friend list
+*   Provides navigation to the user's profile page
+
+Sources: [client/lib/widget/list.dart8-93](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/widget/list.dart#L8-L93)
+
+### ShareButton
+
+The `ShareButton` component provides a UI for sharing a user's profile.
+
+#### Features
+
+*   Displays user profile picture
+*   Shows a shareable link in the format "rebe.al/username"
+*   Provides a share icon and text encouraging users to invite friends
+*   Integrates with the device's native sharing functionality
+
+Sources: [client/lib/widget/share.dart9-106](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/widget/share.dart#L9-L106)
+
+User Interaction Flow
+---------------------
+
+The post display components are designed to provide an intuitive user experience with several interaction patterns:
+
+Sources: [client/lib/widget/feedpost.dart97-139](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/widget/feedpost.dart#L97-L139) [client/lib/widget/gridpost.dart44-60](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/widget/gridpost.dart#L44-L60) [client/lib/widget/list.dart16-22](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/widget/list.dart#L16-L22)
+
+Image Display Mechanism
+-----------------------
+
+A core feature of both post display widgets is the ability to toggle between front and back camera images, which operates through a stateful boolean toggle:
+
+### FeedPostWidget Toggle Implementation
+
+The FeedPostWidget displays both images simultaneously - one as the main view and one as a picture-in-picture. The `switcher` boolean determines which image is primary:
+
+*   When `switcher` is `false`: Back camera image is main, front camera is PiP
+*   When `switcher` is `true`: Front camera image is main, back camera is PiP
+
+### GridPostWidget Toggle Implementation
+
+The GridPostWidget only displays one image at a time:
+
+*   When `switcher` is `false`: Front camera image is displayed
+*   When `switcher` is `true`: Back camera image is displayed
+
+Sources: [client/lib/widget/feedpost.dart14-19](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/widget/feedpost.dart#L14-L19) [client/lib/widget/feedpost.dart112-118](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/widget/feedpost.dart#L112-L118) [client/lib/widget/gridpost.dart14-19](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/widget/gridpost.dart#L14-L19) [client/lib/widget/gridpost.dart58-61](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/widget/gridpost.dart#L58-L61)
+
+Integration with Post Model
+---------------------------
+
+Both post display components rely on the `PostModel` data structure to render content:
+
+The `PostModel` provides all necessary data for rendering:
+
+*   Image paths for both front and back camera photos
+*   Creation timestamp for calculating relative time
+*   User information for displaying the author details
+
+Sources: [client/lib/widget/feedpost.dart6](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/widget/feedpost.dart#L6-L6) [client/lib/widget/gridpost.dart6](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/widget/gridpost.dart#L6-L6)
+
+Summary
+-------
+
+The post display components in ReBeal provide a flexible system for presenting the dual-camera posts that define the BeReal experience. The two primary display widgets (`FeedPostWidget` and `GridPostWidget`) handle different viewing contexts while maintaining the core functionality of toggling between front and back camera images. Supporting components like `UserTilePage` and `ShareButton` complement the post display system by providing user information display and sharing capabilities.</content>
+</page>
+
+<page>
+  <title>Profile Management UI | Antoinegtir/bereal-clone | DeepWiki</title>
+  <url>https://deepwiki.com/Antoinegtir/bereal-clone/3.3-profile-management-ui</url>
+  <content>Relevant source files
+
+*   [client/lib/pages/edit.dart](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/edit.dart)
+*   [client/lib/pages/myprofile.dart](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/myprofile.dart)
+
+Purpose and Scope
+-----------------
+
+This document details the Profile Management UI subsystem of the ReBeal application. This subsystem is responsible for displaying and editing user profile information, including profile pictures, display names, usernames, bios, and location data. The system consists of two primary screens: the profile viewing interface and the profile editing interface, both of which interact with the application's authentication state management.
+
+For information about the underlying authentication system, see [Authentication System](https://deepwiki.com/Antoinegtir/bereal-clone/4-authentication-system).
+
+Sources: [client/lib/pages/myprofile.dart12-17](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/myprofile.dart#L12-L17) [client/lib/pages/edit.dart12-17](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/edit.dart#L12-L17)
+
+Component Architecture
+----------------------
+
+The following diagram illustrates the main components of the Profile Management UI and their relationships:
+
+Sources: [client/lib/pages/myprofile.dart12-269](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/myprofile.dart#L12-L269) [client/lib/pages/edit.dart12-391](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/edit.dart#L12-L391)
+
+Profile Viewing Interface (MyProfilePage)
+-----------------------------------------
+
+The `MyProfilePage` is a stateful widget that displays the user's profile information and provides navigation to the profile editing interface. Key components include:
+
+*   Profile picture display using `CachedNetworkImage`
+*   Display name and username text
+*   Bio text
+*   "Memories" section showing last 14 days in a grid format
+*   Shareable profile link with format "ReBe.al/username"
+*   Navigation gestures to edit profile and settings
+
+The interface is implemented as a scaffold with a main ListView containing these elements.
+
+Sources: [client/lib/pages/myprofile.dart12-269](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/myprofile.dart#L12-L269)
+
+Profile Editing Interface (EditProfilePage)
+-------------------------------------------
+
+The `EditProfilePage` provides a form-based interface for editing user profile information. Key components include:
+
+*   Profile picture editor with camera and gallery selection options
+*   Text fields for display name, username, bio, and location
+*   Save and cancel buttons
+*   Input validation logic
+
+The class uses `TextEditingController` instances to manage the form data and implements validation to ensure proper data formatting.
+
+### Editing Flow Sequence
+
+Sources: [client/lib/pages/edit.dart12-391](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/edit.dart#L12-L391)
+
+Form Implementation Details
+---------------------------
+
+The `EditProfilePage` implements several text input fields for editing user profile information:
+
+| Field | Controller | Line Reference | Validation |
+| --- | --- | --- | --- |
+| Display Name | `_displayName` | [edit.dart230-239](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/edit.dart#L230-L239) | Max 100 chars |
+| Username | `_userName` | [edit.dart254-263](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/edit.dart#L254-L263) | No specific validation |
+| Bio | `_bio` | [edit.dart280-289](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/edit.dart#L280-L289) | Max 100 chars |
+| Location | `_localisation` | [edit.dart305-314](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/edit.dart#L305-L314) | No specific validation |
+
+The form initialization occurs in the `initState` method [client/lib/pages/edit.dart27-38](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/edit.dart#L27-L38) where the controllers are initialized with data from the current user model.
+
+Validation occurs in the `_submitButton` method [client/lib/pages/edit.dart329-369](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/edit.dart#L329-L369) where checks are performed before submitting the updated profile.
+
+Sources: [client/lib/pages/edit.dart20-47](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/edit.dart#L20-L47) [client/lib/pages/edit.dart329-369](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/edit.dart#L329-L369)
+
+Profile Picture Management
+--------------------------
+
+Profile picture management is a core feature of the Profile Management UI. The system supports:
+
+1.  Viewing existing profile picture via `CachedNetworkImage` [client/lib/pages/myprofile.dart79-84](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/myprofile.dart#L79-L84)
+2.  Selecting a new image via `ImagePicker` [client/lib/pages/edit.dart51-53](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/edit.dart#L51-L53)
+3.  Cropping and adjusting the image via `ImageCropper` [client/lib/pages/edit.dart54-66](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/edit.dart#L54-L66)
+4.  Uploading the modified image during profile update [client/lib/pages/edit.dart386](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/edit.dart#L386-L386)
+
+The image selection interface uses a `CupertinoActionSheet` [client/lib/pages/edit.dart135-181](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/edit.dart#L135-L181) that provides options for selecting from gallery, taking a new photo, or removing the profile picture.
+
+Sources: [client/lib/pages/edit.dart49-68](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/edit.dart#L49-L68) [client/lib/pages/edit.dart126-210](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/edit.dart#L126-L210)
+
+Integration with Application State
+----------------------------------
+
+The Profile Management UI integrates with the application's state management through the `AuthState` provider:
+
+1.  Both screens access `AuthState` via `Provider.of<AuthState>(context)` [client/lib/pages/myprofile.dart26](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/myprofile.dart#L26-L26) [client/lib/pages/edit.dart72](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/edit.dart#L72-L72)
+2.  `MyProfilePage` reads profile data using `state.profileUserModel` [client/lib/pages/myprofile.dart82-84](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/myprofile.dart#L82-L84) [client/lib/pages/myprofile.dart95](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/myprofile.dart#L95-L95)
+3.  `EditProfilePage` initializes form data from `state.userModel` [client/lib/pages/edit.dart32-36](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/edit.dart#L32-L36)
+4.  The profile is updated via `state.updateUserProfile()` [client/lib/pages/edit.dart384-387](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/edit.dart#L384-L387)
+
+This approach ensures consistent data management and proper synchronization with backend services.
+
+Sources: [client/lib/pages/myprofile.dart26](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/myprofile.dart#L26-L26) [client/lib/pages/edit.dart32-36](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/edit.dart#L32-L36) [client/lib/pages/edit.dart370-390](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/edit.dart#L370-L390)
+
+User Interaction Flow
+---------------------
+
+The Profile Management UI implements a clear flow for viewing and editing profile information:
+
+Key interaction points:
+
+*   Profile viewing to editing navigation [client/lib/pages/myprofile.dart67-73](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/myprofile.dart#L67-L73)
+*   Profile picture selection and editing [client/lib/pages/edit.dart126-210](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/edit.dart#L126-L210)
+*   Form field editing [client/lib/pages/edit.dart214-322](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/edit.dart#L214-L322)
+*   Profile update validation and submission [client/lib/pages/edit.dart329-390](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/edit.dart#L329-L390)
+
+Sources: [client/lib/pages/myprofile.dart67-73](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/myprofile.dart#L67-L73) [client/lib/pages/edit.dart95](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/edit.dart#L95-L95) [client/lib/pages/edit.dart126-210](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/edit.dart#L126-L210) [client/lib/pages/edit.dart329-390](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/edit.dart#L329-L390)
+
+Summary
+-------
+
+The Profile Management UI subsystem provides a comprehensive solution for viewing and editing user profiles in the ReBeal application. The system is built with modular components that integrate with the application's state management architecture and external services like Firebase. Key features include profile picture management with image selection and cropping, form-based profile data editing with validation, and a user-friendly interface for profile viewing.
+
+The implementation follows Flutter best practices, using stateful widgets for dynamic UI components and provider pattern for state management. The code structure ensures clear separation of concerns between the viewing interface, editing interface, and state management.
+
+Sources: [client/lib/pages/myprofile.dart12-269](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/myprofile.dart#L12-L269) [client/lib/pages/edit.dart12-391](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/pages/edit.dart#L12-L391)</content>
+</page>
+
+<page>
+  <title>Authentication System | Antoinegtir/bereal-clone | DeepWiki</title>
+  <url>https://deepwiki.com/Antoinegtir/bereal-clone/4-authentication-system</url>
+  <content>Relevant source files
+
+*   [client/lib/auth/name.dart](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/auth/name.dart)
+*   [client/lib/state/auth.state.dart](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/state/auth.state.dart)
+
+Overview and Purpose
+--------------------
+
+The Authentication System in the ReBeal application handles user authentication, registration, profile management, and session state. It provides a complete user identity lifecycle from account creation to profile management and secure sign-out.
+
+This system serves as the gateway to the application, determining whether users are directed to the login flow or the main application features. For information about post creation and management after authentication, see [Post Management](https://deepwiki.com/Antoinegtir/bereal-clone/5-post-management).
+
+Authentication Architecture
+---------------------------
+
+The authentication system follows a layered architecture pattern integrated with Firebase Authentication services. It maintains the user's authentication state throughout the application and persists this information between sessions.
+
+Sources: [client/lib/state/auth.state.dart16-238](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/state/auth.state.dart#L16-L238) [client/lib/auth/name.dart7-136](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/auth/name.dart#L7-L136)
+
+Authentication Flow
+-------------------
+
+The authentication flow starts at the application launch and determines the user's path through the app.
+
+Sources: [client/lib/state/auth.state.dart120-138](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/state/auth.state.dart#L120-L138)
+
+User Registration Process
+-------------------------
+
+The registration process in ReBeal is multi-step, collecting different pieces of user information across several screens.
+
+### Registration Flow Screens
+
+1.  **Name Page**: Collects the user's display name
+2.  **Birth Page**: Collects the user's birth date
+3.  **Signup Page**: Collects email and password
+4.  **Contact Page**: Requests contacts permission
+5.  **Notification Permission Page**: Requests notification permission
+
+After completing these steps, the user is registered and directed to the home page.
+
+Sources: [client/lib/auth/name.dart7-136](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/auth/name.dart#L7-L136)
+
+### Registration Implementation
+
+The `signUp` method in `AuthState` handles user registration by:
+
+1.  Creating a Firebase Authentication account with the provided email and password
+2.  Updating the user's display name and photo URL
+3.  Creating a user profile in Firebase Realtime Database
+4.  Setting the authentication status to `LOGGED_IN`
+
+Sources: [client/lib/state/auth.state.dart79-106](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/state/auth.state.dart#L79-L106) [client/lib/state/auth.state.dart108-118](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/state/auth.state.dart#L108-L118)
+
+Login Process
+-------------
+
+The login process is simpler than registration, requiring only an email and password.
+
+Sources: [client/lib/state/auth.state.dart53-77](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/state/auth.state.dart#L53-L77)
+
+Authentication State Management
+-------------------------------
+
+The `AuthState` class manages authentication state throughout the application. It's part of the Provider pattern used for state management, and it extends `AppStates`.
+
+### Key Components
+
+| Component | Description |
+| --- | --- |
+| `authStatus` | Enum tracking authentication status (NOT\_DETERMINED, NOT\_LOGGED\_IN, LOGGED\_IN) |
+| `user` | Firebase User object representing the current authenticated user |
+| `_userModel` | App-specific UserModel containing user profile data |
+| `_firebaseAuth` | Instance of FirebaseAuth for authentication operations |
+| `_profileQuery` | Firebase Database query for listening to profile changes |
+
+Sources: [client/lib/state/auth.state.dart16-27](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/state/auth.state.dart#L16-L27)
+
+### Authentication State Lifecycle
+
+The authentication state is maintained by:
+
+1.  Checking for existing authenticated user at app startup
+2.  Listening for changes to the user's profile in Firebase Database
+3.  Persisting user information in SharedPreferences for offline access
+4.  Updating state and notifying listeners when changes occur
+
+Sources: [client/lib/state/auth.state.dart31-41](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/state/auth.state.dart#L31-L41) [client/lib/state/auth.state.dart120-138](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/state/auth.state.dart#L120-L138)
+
+User Profile Management
+-----------------------
+
+User profiles are stored in Firebase Realtime Database and managed by the `AuthState` class.
+
+### Profile Creation and Update
+
+The `createUser` method stores user profile data in Firebase Database:
+
+*   New users get a generated username based on their display name and ID
+*   Analytics events are logged for new user creation
+*   The user profile is stored in the database and cached locally
+
+Profile updates are handled by the `updateUserProfile` method, which can:
+
+*   Update profile information in the database
+*   Upload profile images to Firebase Storage
+*   Update Firebase Authentication display name and photo URL
+
+Sources: [client/lib/state/auth.state.dart108-118](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/state/auth.state.dart#L108-L118) [client/lib/state/auth.state.dart140-161](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/state/auth.state.dart#L140-L161) [client/lib/state/auth.state.dart170-182](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/state/auth.state.dart#L170-L182) [client/lib/state/auth.state.dart184-208](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/state/auth.state.dart#L184-L208)
+
+### Profile Change Listeners
+
+The `AuthState` class sets up listeners to detect changes to the user's profile:
+
+*   `_onProfileChanged`: Handles complete profile updates
+*   `_onProfileUpdated`: Handles updates to specific properties (following/followers)
+
+These listeners ensure the application state remains synchronized with the database and update the UI when changes occur.
+
+Sources: [client/lib/state/auth.state.dart210-218](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/state/auth.state.dart#L210-L218) [client/lib/state/auth.state.dart220-237](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/state/auth.state.dart#L220-L237)
+
+Firebase Integration
+--------------------
+
+The authentication system integrates with several Firebase services:
+
+| Firebase Service | Purpose | Key Methods |
+| --- | --- | --- |
+| Firebase Authentication | User authentication | `signIn()`, `signUp()`, `getCurrentUser()` |
+| Firebase Realtime Database | Store user profiles | `createUser()`, `getUserDetail()`, `getProfileUser()` |
+| Firebase Storage | Store profile images | `_uploadFileToStorage()` |
+| Firebase Analytics | Track authentication events | Logging of sign-up and user creation events |
+
+This integration provides a complete backend for user authentication and profile management without requiring a custom server.
+
+Sources: [client/lib/state/auth.state.dart16-26](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/state/auth.state.dart#L16-L26) [client/lib/state/auth.state.dart90](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/state/auth.state.dart#L90-L90) [client/lib/state/auth.state.dart112](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/state/auth.state.dart#L112-L112)
+
+Code Structure and Implementation Details
+-----------------------------------------
+
+### AuthState Class
+
+The `AuthState` class is the central component of the authentication system:
+
+Sources: [client/lib/state/auth.state.dart16-238](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/state/auth.state.dart#L16-L238)
+
+### Key Method Implementations
+
+The authentication system's core functionality is implemented in the following key methods:
+
+1.  **Authentication Methods**:
+    
+    *   `signIn`: Authenticates with email/password and returns user ID on success
+    *   `signUp`: Creates new account and profile
+    *   `logoutCallback`: Signs out and clears cached data
+    *   `getCurrentUser`: Checks for existing authenticated user
+2.  **Profile Management Methods**:
+    
+    *   `createUser`: Stores user profile in database
+    *   `updateUserProfile`: Updates profile info and images
+    *   `getUserDetail`: Fetches a user profile by ID
+    *   `getProfileUser`: Fetches the current user's profile
+    *   `_uploadFileToStorage`: Uploads images to Firebase Storage
+3.  **State Management Methods**:
+    
+    *   `databaseInit`: Sets up listeners for profile changes
+    *   `_onProfileChanged`: Handles profile updates
+    *   `_onProfileUpdated`: Handles specific profile property updates
+
+Sources: [client/lib/state/auth.state.dart31-237](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/state/auth.state.dart#L31-L237)
+
+Implementation Example: Name Input Screen
+-----------------------------------------
+
+The `NamePage` is the first step in the registration flow, demonstrating how the UI layer interacts with the authentication system.
+
+Key aspects:
+
+*   Text field for entering the user's name
+*   Validation to ensure the name is provided and not too long
+*   "Continue" button that navigates to the `BirthPage` with the entered name
+*   Animation for a smooth transition between screens
+
+Sources: [client/lib/auth/name.dart7-136](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/auth/name.dart#L7-L136)</content>
+</page>
+
+<page>
+  <title>Post Management | Antoinegtir/bereal-clone | DeepWiki</title>
+  <url>https://deepwiki.com/Antoinegtir/bereal-clone/5-post-management</url>
+  <content>Relevant source files
+
+*   [client/lib/auth/signup.dart](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/auth/signup.dart)
+*   [client/lib/camera/camera.dart](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/camera/camera.dart)
+*   [client/lib/helper/shared\_prefrence\_helper.dart](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/helper/shared_prefrence_helper.dart)
+*   [client/lib/model/post.module.dart](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/model/post.module.dart)
+*   [client/lib/model/user.module.dart](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/model/user.module.dart)
+*   [client/lib/notification/notification.dart](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/notification/notification.dart)
+*   [client/lib/widget/feedpost.dart](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/widget/feedpost.dart)
+*   [client/lib/widget/gridpost.dart](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/widget/gridpost.dart)
+*   [client/lib/widget/list.dart](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/widget/list.dart)
+*   [client/lib/widget/share.dart](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/widget/share.dart)
+
+The Post Management system in the ReBeal app handles the creation, storage, and display of posts that combine front and back camera images—a core feature of this BeReal clone. This document explains how posts are structured, created, stored, and displayed throughout the application. For information about camera functionality specifically, see [Camera Integration](https://deepwiki.com/Antoinegtir/bereal-clone/5.1-camera-integration).
+
+Post Data Model
+---------------
+
+The PostModel class serves as the foundation for all post-related operations in the application.
+
+### Key Attributes:
+
+*   **key**: Unique identifier for the post
+*   **imageFrontPath**: URL to the front camera image in Firebase Storage
+*   **imageBackPath**: URL to the back camera image in Firebase Storage
+*   **bio**: Optional caption or text description
+*   **createdAt**: Timestamp when the post was created
+*   **user**: Reference to the user who created the post
+*   **comment**: Collection of comments on the post
+
+Sources: [client/lib/model/post.module.dart6-44](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/model/post.module.dart#L6-L44) [client/lib/model/user.module.dart4-116](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/model/user.module.dart#L4-L116)
+
+Post Creation Flow
+------------------
+
+Creating a post in ReBeal involves capturing both front and back camera images, uploading them to Firebase Storage, and storing the post data in Firebase Realtime Database.
+
+### Implementation Details:
+
+1.  **Image Capture**:
+    
+    *   The `_takePicture()` method in CameraPage handles the entire capture sequence
+    *   After taking the first image, it automatically switches to the other camera
+    *   Both images are captured in sequence
+2.  **Image Upload**:
+    
+    *   The `uploadImageToStorage()` method uploads images to Firebase Storage
+    *   Returns downloadable URLs for both images
+3.  **Post Creation**:
+    
+    *   A new PostModel is instantiated with image URLs, timestamp, and user data
+    *   The post is saved to Firebase using `addPostToDatabase()`
+
+Sources: [client/lib/camera/camera.dart291-322](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/camera/camera.dart#L291-L322) [client/lib/camera/camera.dart78-90](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/camera/camera.dart#L78-L90)
+
+Post Storage Architecture
+-------------------------
+
+Posts are stored using a combination of Firebase services:
+
+*   **Images**: Stored in Firebase Storage, with paths referenced in the PostModel
+*   **Post Data**: Stored in Firebase Realtime Database as JSON objects
+*   **User Association**: Each post contains user data for rendering purposes
+
+Sources: [client/lib/camera/camera.dart78-90](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/camera/camera.dart#L78-L90) [client/lib/model/post.module.dart24-32](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/model/post.module.dart#L24-L32)
+
+Post Display Components
+-----------------------
+
+The application uses two primary components to display posts, each serving different UI contexts:
+
+### FeedPostWidget
+
+This widget renders posts in the main feed with a full-size layout:
+
+*   Displays user profile picture, name, location, and timestamp
+*   Shows one image large (primary), with the secondary image as an inset in the corner
+*   Implements image switching by tapping on the images
+*   Handles time formatting for post creation timestamp
+*   Takes a PostModel as input and renders all its components
+
+### GridPostWidget
+
+Used to display posts in a compact grid layout:
+
+*   Shows a single image at a time (can be toggled between front and back)
+*   Displays minimal user information and timestamp
+*   Optimized for space efficiency in grid layouts
+*   Takes a PostModel as input but renders less information than FeedPostWidget
+
+Both widgets implement the image switching functionality using a `switcher` boolean state variable that toggles between front and back images when the user taps on the post.
+
+Sources: [client/lib/widget/feedpost.dart5-144](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/widget/feedpost.dart#L5-L144) [client/lib/widget/gridpost.dart5-92](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/widget/gridpost.dart#L5-L92)
+
+Post Timestamp Management
+-------------------------
+
+The application implements a user-friendly "time ago" display for posts:
+
+The time formatting logic:
+
+*   For posts less than a minute old: "A few seconds ago"
+*   For posts less than an hour old: "Few X minute(s) ago"
+*   For posts more than an hour old: "Few X hour(s) ago"
+
+This logic is implemented in both the FeedPostWidget and GridPostWidget to display post recency.
+
+Sources: [client/lib/widget/feedpost.dart31-45](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/widget/feedpost.dart#L31-L45) [client/lib/widget/gridpost.dart23-42](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/widget/gridpost.dart#L23-L42)
+
+Image Switching Implementation
+------------------------------
+
+A key feature of the ReBeal app is the ability to toggle between front and back camera images within a post:
+
+The implementation uses:
+
+*   A `switcher` boolean state variable in each post widget
+*   A `switcherFunc()` method that toggles this boolean when triggered
+*   Conditional rendering that swaps the image source URLs based on the switcher state
+*   `CachedNetworkImage` for efficient image loading and caching
+
+Sources: [client/lib/widget/feedpost.dart14-19](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/widget/feedpost.dart#L14-L19) [client/lib/widget/feedpost.dart97-138](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/widget/feedpost.dart#L97-L138) [client/lib/widget/gridpost.dart14-19](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/widget/gridpost.dart#L14-L19)
+
+Complete Post Lifecycle
+-----------------------
+
+The following diagram illustrates the complete lifecycle of a post in the ReBeal application:
+
+This diagram shows how post data flows from creation through storage, retrieval, and finally display to the user, encompassing the entire Post Management system.
+
+Sources: [client/lib/camera/camera.dart291-322](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/camera/camera.dart#L291-L322) [client/lib/widget/feedpost.dart5-144](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/widget/feedpost.dart#L5-L144) [client/lib/widget/gridpost.dart5-92](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/widget/gridpost.dart#L5-L92)
+
+Summary
+-------
+
+The Post Management system in ReBeal implements the core functionality of the BeReal concept:
+
+| Component | Responsibility |
+| --- | --- |
+| PostModel | Data structure for post information |
+| CameraPage | Capturing and uploading post images |
+| FeedPostWidget | Displaying posts in the main feed |
+| GridPostWidget | Displaying posts in grid/profile views |
+| Firebase Storage | Storing post images |
+| Firebase Realtime DB | Storing post metadata and relationships |
+
+The system handles the entire lifecycle of posts from creation to display, with special attention to the unique dual-camera aspect that defines the BeReal experience. The implementation uses Firebase services for storage and retrieval, and custom widgets for display with image-switching capabilities.</content>
+</page>
+
+<page>
+  <title>Camera Integration | Antoinegtir/bereal-clone | DeepWiki</title>
+  <url>https://deepwiki.com/Antoinegtir/bereal-clone/5.1-camera-integration</url>
+  <content>Relevant source files
+
+*   [client/lib/auth/signup.dart](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/auth/signup.dart)
+*   [client/lib/camera/camera.dart](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/camera/camera.dart)
+*   [client/lib/helper/shared\_prefrence\_helper.dart](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/helper/shared_prefrence_helper.dart)
+*   [client/lib/model/post.module.dart](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/model/post.module.dart)
+*   [client/lib/model/user.module.dart](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/model/user.module.dart)
+*   [client/lib/notification/notification.dart](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/notification/notification.dart)
+
+Purpose and Scope
+-----------------
+
+This document details the Camera Integration system in the ReBeal application, which enables users to capture and share photos from both front and back cameras simultaneously - the core functionality of a BeReal-like application. This system handles camera initialization, image capture, photo processing, and integration with the post creation workflow.
+
+For information about post management after capture, see [Post Management](https://deepwiki.com/Antoinegtir/bereal-clone/5-post-management).
+
+Architecture Overview
+---------------------
+
+The Camera Integration system is responsible for interacting with the device camera hardware, capturing images, and initiating the post creation process. It works closely with the Firebase Storage system for image persistence and the Post Management system for creating posts from captured images.
+
+Sources: [client/lib/camera/camera.dart17-386](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/camera/camera.dart#L17-L386)
+
+Camera Initialization and Setup
+-------------------------------
+
+The camera setup process begins with selecting the appropriate camera from the device's available cameras and initializing a `CameraController` with the desired configuration.
+
+Sources: [client/lib/camera/camera.dart43-70](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/camera/camera.dart#L43-L70) [client/lib/camera/camera.dart265-289](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/camera/camera.dart#L265-L289)
+
+### Camera Selection and Configuration
+
+The camera system supports multiple camera positions (front, back, and wide-angle) and allows switching between them. The camera is initialized with specific settings:
+
+*   Resolution preset: High
+*   Audio: Disabled
+*   Image format group: Platform-specific (nv21 for Android, bgra8888 for iOS)
+
+The camera selection logic prioritizes cameras with a 90° sensor orientation for a better user experience.
+
+    CameraController(
+      camera,
+      ResolutionPreset.high,
+      enableAudio: false,
+      imageFormatGroup: Platform.isAndroid
+          ? ImageFormatGroup.nv21
+          : ImageFormatGroup.bgra8888,
+    )
+    
+
+Sources: [client/lib/camera/camera.dart265-274](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/camera/camera.dart#L265-L274)
+
+Image Capture Process
+---------------------
+
+The BeReal-style app requires capturing images from both front and back cameras in quick succession. The `_takePicture()` method orchestrates this process.
+
+Sources: [client/lib/camera/camera.dart291-322](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/camera/camera.dart#L291-L322)
+
+### Camera Switching
+
+The application allows switching between different camera positions:
+
+*   Front camera (`_cameraIndex = 1`)
+*   Back camera (`_cameraIndex = 0`)
+*   Wide-angle camera (if available, `_cameraIndex = 2`)
+
+The camera switching is implemented through the `_switchFrontCamera()` and `_switchGiantAngle()` methods that handle stopping the current camera feed, switching the index, and restarting the feed with the new camera.
+
+Sources: [client/lib/camera/camera.dart343-384](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/camera/camera.dart#L343-L384)
+
+Image Storage and Post Creation
+-------------------------------
+
+After capturing photos, the app uploads them to Firebase Storage and creates a new post in the database.
+
+### Image Upload Process
+
+The `uploadImageToStorage()` method handles the upload of captured images to Firebase Storage:
+
+1.  Extract the filename from the file path
+2.  Create a reference to Firebase Storage
+3.  Upload the file
+4.  Get and return the download URL
+
+    Future<String> uploadImageToStorage(File file) async {
+      String fileName = Path.basename(file.path);
+      Reference storageRef = _storage.ref().child('images/$fileName');
+      UploadTask uploadTask = storageRef.putFile(file);
+      TaskSnapshot storageSnapshot = await uploadTask.whenComplete(() {});
+      String downloadUrl = await storageSnapshot.ref.getDownloadURL();
+      return downloadUrl;
+    }
+    
+
+Sources: [client/lib/camera/camera.dart78-85](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/camera/camera.dart#L78-L85)
+
+### Post Creation
+
+The `PostModel` is created with both image URLs (front and back) and user information:
+
+    PostModel post = PostModel(
+      user: user,
+      imageFrontPath: backImagePath,
+      imageBackPath: path,
+      createdAt: DateTime.now().toUtc().toString(),
+    );
+    
+
+Then it's added to the Firebase Database:
+
+    Future<void> addPostToDatabase(PostModel post) async {
+      var newPostRef = _databaseRef.child('posts').push();
+      newPostRef.set(post.toJson());
+    }
+    
+
+Sources: [client/lib/camera/camera.dart87-90](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/camera/camera.dart#L87-L90) [client/lib/camera/camera.dart306-321](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/camera/camera.dart#L306-L321)
+
+Camera UI Components
+--------------------
+
+The camera interface consists of several key UI components:
+
+Sources: [client/lib/camera/camera.dart127-263](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/camera/camera.dart#L127-L263)
+
+### Camera Preview
+
+The camera preview is displayed in a container with rounded corners. It's implemented using `CameraPreview(_controller!)` wrapped in a `FittedBox` to ensure proper sizing. The preview supports zoom gestures.
+
+Sources: [client/lib/camera/camera.dart139-203](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/camera/camera.dart#L139-L203)
+
+### Camera Controls
+
+The camera interface includes three main controls:
+
+1.  **Flash toggle** - Controls the camera's flash mode
+2.  **Capture button** - A circular button to take pictures
+3.  **Camera switch** - To switch between front and back cameras with an animation
+
+These controls are positioned at the bottom of the screen in a row.
+
+Sources: [client/lib/camera/camera.dart207-260](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/camera/camera.dart#L207-L260)
+
+Platform-Specific Considerations
+--------------------------------
+
+The camera implementation includes platform-specific handling for different aspects:
+
+1.  **Image format group** - Different formats for Android (nv21) and iOS (bgra8888)
+2.  **Camera discovery** - Detection of available cameras and their capabilities
+3.  **Sensor orientation** - Preference for cameras with 90° orientation
+
+Sources: [client/lib/camera/camera.dart265-274](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/camera/camera.dart#L265-L274)
+
+Integration with Post System
+----------------------------
+
+The Camera Integration system connects with the Post Management system by creating `PostModel` objects that contain:
+
+1.  The user information (obtained from `AuthState`)
+2.  URLs to both front and back camera images
+3.  Creation timestamp
+
+This model is then saved to the Firebase Database and becomes available in the app's feed.
+
+    PostModel post = PostModel(
+      user: user,
+      imageFrontPath: backImagePath,
+      imageBackPath: path,
+      createdAt: DateTime.now().toUtc().toString(),
+    );
+    
+
+Sources: [client/lib/camera/camera.dart306-321](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/camera/camera.dart#L306-L321) [client/lib/model/post.module.dart6-44](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/model/post.module.dart#L6-L44)
+
+Summary
+-------
+
+The Camera Integration system is a crucial component of the ReBeal application, enabling the core functionality of capturing and sharing dual-camera photos. It handles:
+
+1.  Camera initialization and management
+2.  Image capture from both front and back cameras
+3.  Image upload to Firebase Storage
+4.  Post creation and storage in the database
+5.  User interface for camera controls and preview
+
+The system is designed to support a seamless user experience while handling the complexity of camera hardware interactions, image processing, and integration with the app's data model.</content>
+</page>
+
+<page>
+  <title>Notification System | Antoinegtir/bereal-clone | DeepWiki</title>
+  <url>https://deepwiki.com/Antoinegtir/bereal-clone/5.2-notification-system</url>
+  <content>Relevant source files
+
+*   [client/lib/auth/signup.dart](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/auth/signup.dart)
+*   [client/lib/camera/camera.dart](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/camera/camera.dart)
+*   [client/lib/helper/shared\_prefrence\_helper.dart](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/helper/shared_prefrence_helper.dart)
+*   [client/lib/model/post.module.dart](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/model/post.module.dart)
+*   [client/lib/model/user.module.dart](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/model/user.module.dart)
+*   [client/lib/notification/notification.dart](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/notification/notification.dart)
+
+Purpose and Scope
+-----------------
+
+The Notification System in ReBeal manages user notifications for time-sensitive alerts, primarily related to the daily photo-taking reminders that are core to BeReal-like applications. This system handles notification permissions, token management, and notification display. This document focuses on the implementation details of how notifications are managed within the application.
+
+For information about Post Management, which triggers notifications when photos are taken, see [Post Management](https://deepwiki.com/Antoinegtir/bereal-clone/5-post-management).
+
+System Overview
+---------------
+
+The Notification System in ReBeal is designed to alert users when it's time to take their daily photos and to reëngage users who haven't posted recently. It is integrated with Firebase Cloud Messaging (FCM) for push notification delivery.
+
+Sources: [client/lib/notification/notification.dart](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/notification/notification.dart) [client/lib/model/user.module.dart1-116](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/model/user.module.dart#L1-L116)
+
+Notification Token Management
+-----------------------------
+
+The notification system relies on Firebase Cloud Messaging (FCM) tokens, which are stored in the `UserModel`. These tokens are unique identifiers that allow the Firebase backend to target specific devices for notification delivery.
+
+The `fcmToken` field in the `UserModel` class is used to store the device-specific FCM token:
+
+| Field | Type | Purpose |
+| --- | --- | --- |
+| fcmToken | String? | Stores the Firebase Cloud Messaging token for push notification delivery |
+
+Sources: [client/lib/model/user.module.dart1-116](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/model/user.module.dart#L1-L116)
+
+Notification Permission Flow
+----------------------------
+
+Notification permissions are requested during the user onboarding process, after account creation and contact access permission. This is a critical step in the user flow as it enables the core functionality of the app - timely notifications to take photos.
+
+The notification permission is requested after sign-up and contact permission as seen in the auth flow:
+
+Sources: [client/lib/auth/signup.dart204-217](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/auth/signup.dart#L204-L217)
+
+Notification UI Components
+--------------------------
+
+The application includes a dedicated notification test screen that allows users to test and resend notifications. This component is primarily used for demonstrating how notifications appear and function within the app.
+
+### Notification Test Screen
+
+The `NotifcationTest` component displays a message encouraging users to engage with notifications and provides a button to resend a notification.
+
+Key elements of the NotificationTest UI:
+
+*   Personalized message using the user's display name
+*   Instructions about tapping notifications
+*   "Resend notification" button that navigates to the Splash Page
+*   "Disable to not disturb" option
+
+The UI is designed with a minimalist black background and white text, consistent with the overall app design language.
+
+Sources: [client/lib/notification/notification.dart8-108](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/notification/notification.dart#L8-L108)
+
+Integration with Post Management
+--------------------------------
+
+The notification system is closely tied to the post management functionality. When a user creates a new post by taking front and back camera photos, this can trigger notifications to their followers.
+
+While the direct FCM integration code is not visible in the provided files, the post creation flow in [client/lib/camera/camera.dart291-322](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/camera/camera.dart#L291-L322) shows how posts are created and stored in Firebase, which would likely trigger notification events.
+
+Sources: [client/lib/camera/camera.dart291-322](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/camera/camera.dart#L291-L322)
+
+Implementation Details
+----------------------
+
+### Notification Storage
+
+The application uses shared preferences to locally store user data, including notification-related settings:
+
+The `SharedPreferenceHelper` class provides methods to save and retrieve user profile data, which includes the FCM token for notifications.
+
+Sources: [client/lib/helper/shared\_prefrence\_helper.dart1-24](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/helper/shared_prefrence_helper.dart#L1-L24)
+
+### Resending Notifications
+
+The notification test screen includes functionality to resend notifications, which works by navigating back to the splash page:
+
+When a user taps the "Resend notification" button, the application navigates to the `SplashPage`, which likely triggers the app's initialization flow, including checking for and processing any pending notifications.
+
+Sources: [client/lib/notification/notification.dart95-101](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/lib/notification/notification.dart#L95-L101)
+
+Summary
+-------
+
+The Notification System in ReBeal is designed to support the core functionality of the app - prompting users to take daily photos at specific times. It integrates with Firebase Cloud Messaging for delivery, stores device tokens in the user model, and includes UI components for testing and managing notifications.
+
+The system follows these key principles:
+
+1.  Early permission request during user onboarding
+2.  FCM token storage in user profiles
+3.  Integration with post creation flow
+4.  Test UI for notification demonstration
+
+This implementation ensures users receive timely alerts while maintaining control over their notification settings.</content>
+</page>
+
+<page>
+  <title>Platform Configuration | Antoinegtir/bereal-clone | DeepWiki</title>
+  <url>https://deepwiki.com/Antoinegtir/bereal-clone/6-platform-configuration</url>
+  <content>Relevant source files
+
+*   [client/android/app/src/main/AndroidManifest.xml](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/android/app/src/main/AndroidManifest.xml)
+*   [client/android/build.gradle](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/android/build.gradle)
+*   [client/ios/Podfile.lock](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/ios/Podfile.lock)
+
+Purpose and Scope
+-----------------
+
+This document details the platform-specific configurations for the ReBeal application, covering both Android and iOS platforms. It outlines how the Flutter application integrates with native platform features, required permissions, dependencies, and service configurations necessary for the app to function properly across different devices. For information about specific platform implementations of features like camera integration, see [Camera Integration](https://deepwiki.com/Antoinegtir/bereal-clone/5.1-camera-integration).
+
+Platform Architecture Overview
+------------------------------
+
+The ReBeal application uses Flutter as its cross-platform framework while maintaining platform-specific configurations to access native features and optimize performance on each platform.
+
+Sources:
+
+*   [client/android/app/src/main/AndroidManifest.xml](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/android/app/src/main/AndroidManifest.xml)
+*   [client/android/build.gradle](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/android/build.gradle)
+*   [client/ios/Podfile.lock](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/ios/Podfile.lock)
+
+Android Configuration
+---------------------
+
+### Manifest Configuration
+
+The Android manifest file (`AndroidManifest.xml`) defines essential application properties, permissions, and component declarations needed for the app to function correctly on Android devices.
+
+#### App Identity and Metadata
+
+    Application Label: Threads
+    Package Name: com.example.front
+    Main Activity: .MainActivity
+    
+
+The manifest configures the application label, icon, and main activity settings, as well as integration points with system components.
+
+#### Required Permissions
+
+These permissions are declared in the manifest and requested at runtime following Android's permission model.
+
+#### Firebase and Notification Configuration
+
+The manifest includes configuration for Firebase Cloud Messaging to support push notifications:
+
+Additionally, Google Ads integration is configured with:
+
+Sources:
+
+*   [client/android/app/src/main/AndroidManifest.xml1-54](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/android/app/src/main/AndroidManifest.xml#L1-L54)
+
+### Gradle Configuration
+
+The Android build configuration is managed through Gradle, specifying dependencies, repositories, and build settings.
+
+#### Key Dependencies
+
+*   Kotlin version: 1.7.20
+*   Gradle Plugin: 7.2.1
+*   Google Services Plugin: 4.3.10 (for Firebase integration)
+
+#### Build Configuration
+
+The build configuration sets up project structure, build directories, and cleanup tasks:
+
+    rootProject.buildDir = '../build'
+    subprojects {
+        project.buildDir = "${rootProject.buildDir}/${project.name}"
+    }
+    
+
+Sources:
+
+*   [client/android/build.gradle1-32](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/android/build.gradle#L1-L32)
+
+iOS Configuration
+-----------------
+
+### CocoaPods Dependencies
+
+iOS dependencies are managed using CocoaPods, with the `Podfile.lock` documenting all installed dependencies.
+
+#### Firebase Services
+
+The app integrates with several Firebase modules:
+
+#### Flutter Plugins
+
+The application uses various Flutter plugins for iOS-specific functionality:
+
+*   **UI Related**:
+    
+    *   `flutter_native_splash` - Custom splash screen
+    *   `image_cropper` - Image cropping with `TOCropViewController`
+*   **Feature Related**:
+    
+    *   `camera_avfoundation` - Camera access
+    *   `contacts_service` - Access to device contacts
+    *   `image_picker_ios` - Photo selection
+    *   `permission_handler_apple` - iOS permission management
+    *   `share_plus` - Content sharing
+    *   `url_launcher_ios` - Opening URLs
+*   **Storage Related**:
+    
+    *   `path_provider_foundation` - File system access
+    *   `shared_preferences_foundation` - Key-value storage
+    *   `sqflite` - SQLite database
+
+Sources:
+
+*   [client/ios/Podfile.lock1-304](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/ios/Podfile.lock#L1-L304)
+
+Cross-Platform Configuration Integration
+----------------------------------------
+
+### Integration Points Between Platforms
+
+The ReBeal app manages platform configurations while maintaining a shared codebase through Flutter. Here's how platform-specific implementations are coordinated:
+
+### Platform Detection and Specific Code
+
+The application uses Flutter's platform detection to conditionally execute platform-specific code:
+
+This approach allows the app to provide optimal implementations for each platform while maintaining a single codebase.
+
+Sources:
+
+*   [client/android/app/src/main/AndroidManifest.xml](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/android/app/src/main/AndroidManifest.xml)
+*   [client/ios/Podfile.lock](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/ios/Podfile.lock)
+
+Configuration Management Flow
+-----------------------------
+
+The diagram below illustrates how platform configurations are managed during the app's build and runtime processes:
+
+Sources:
+
+*   [client/android/app/src/main/AndroidManifest.xml](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/android/app/src/main/AndroidManifest.xml)
+*   [client/android/build.gradle](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/android/build.gradle)
+*   [client/ios/Podfile.lock](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/ios/Podfile.lock)
+
+Summary
+-------
+
+The platform configuration in ReBeal establishes the necessary groundwork for the Flutter application to interact with platform-specific features on both Android and iOS. By properly configuring permissions, dependencies, and service integrations for each platform, the app can deliver a consistent user experience while leveraging native capabilities.
+
+Key aspects of the platform configuration include:
+
+*   Declaration of required permissions and features
+*   Integration with Firebase services
+*   Setup for camera and image processing
+*   Configuration for contacts access and sharing features
+*   Management of data storage options
+
+These configurations enable the various features of the ReBeal app, allowing it to function as a BeReal clone with photo capturing, social interactions, and user authentication across both major mobile platforms.</content>
+</page>
+
+<page>
+  <title>Android Configuration | Antoinegtir/bereal-clone | DeepWiki</title>
+  <url>https://deepwiki.com/Antoinegtir/bereal-clone/6.1-android-configuration</url>
+  <content>Relevant source files
+
+*   [client/android/app/src/main/AndroidManifest.xml](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/android/app/src/main/AndroidManifest.xml)
+*   [client/android/build.gradle](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/android/build.gradle)
+
+Purpose and Scope
+-----------------
+
+This document provides a comprehensive overview of the Android-specific configurations for the ReBeal application. It covers the manifest configurations, required permissions, build settings, and dependency management necessary for the Android version of the application. For iOS-specific configurations, see [iOS Configuration](https://deepwiki.com/Antoinegtir/bereal-clone/6.2-ios-configuration).
+
+Android Manifest Overview
+-------------------------
+
+The Android Manifest file serves as the central configuration point for the Android application, declaring essential components, permissions, and features required by the app.
+
+### Application Configuration
+
+The application is configured with the following properties:
+
+*   **Label**: "Threads"
+*   **Icon**: Custom launcher icon
+*   **Main Activity**: Configured as a single-top launch mode with hardware acceleration
+
+The manifest defines the application name, icon, and theme settings that determine the app's appearance on Android devices.
+
+Sources: [client/android/app/src/main/AndroidManifest.xml3-44](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/android/app/src/main/AndroidManifest.xml#L3-L44)
+
+### Activities
+
+#### Main Activity
+
+The main activity is configured with specific properties:
+
+*   **Launch Mode**: singleTop
+*   **Theme**: LaunchTheme
+*   **Configuration Changes**: Handles orientation, keyboard, screen size, and other changes
+*   **Intent Filters**:
+    *   Main launcher intent (makes the app appear in the app drawer)
+    *   Flutter Notification Click intent (for handling notification interactions)
+
+#### UCrop Activity
+
+The app includes the UCrop library for image cropping capabilities:
+
+*   **Screen Orientation**: Portrait
+*   **Theme**: AppCompat.Light.NoActionBar
+
+Sources: [client/android/app/src/main/AndroidManifest.xml7-35](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/android/app/src/main/AndroidManifest.xml#L7-L35)
+
+### Metadata Entries
+
+The Android manifest includes several metadata entries:
+
+1.  **Flutter Embedding**: Required for Flutter integration
+    
+        android:name="flutterEmbedding"
+        android:value="2"
+        
+    
+2.  **Google AdMob Application ID**: For mobile advertisements
+    
+        android:name="com.google.android.gms.ads.APPLICATION_ID"
+        android:value="ca-app-pub-2174908602434312~8898462068"
+        
+    
+
+Sources: [client/android/app/src/main/AndroidManifest.xml38-43](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/android/app/src/main/AndroidManifest.xml#L38-L43)
+
+### Permissions
+
+The application requires a comprehensive set of permissions to enable its core functionalities:
+
+| Permission | Purpose |
+| --- | --- |
+| READ\_CONTACTS | Access user contacts for friend discovery |
+| WRITE\_CONTACTS | Modify contact information if needed |
+| READ\_PHONE\_STATE | Access device state information |
+| INTERNET | Network connectivity for Firebase services |
+| RECORD\_AUDIO | Required for video recording functionality |
+| CAMERA | Access to camera for taking BeReal photos |
+| MODIFY\_AUDIO\_SETTINGS | Configure audio for media capture |
+| ACCESS\_NETWORK\_STATE | Check network connectivity status |
+| BLUETOOTH | Bluetooth connectivity if needed |
+
+These permissions align with the core functionality of a BeReal-style application that requires camera access for dual-camera photos and contacts access for friend discovery.
+
+Sources: [client/android/app/src/main/AndroidManifest.xml45-53](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/android/app/src/main/AndroidManifest.xml#L45-L53)
+
+Build Configuration
+-------------------
+
+The Android build system utilizes Gradle for dependency management and build process configuration.
+
+### Gradle Configuration
+
+The project uses a standard Gradle build configuration with specific dependencies:
+
+*   **Kotlin Version**: 1.7.20
+*   **Gradle Plugin**: 7.2.1
+*   **Google Services**: 4.3.10 (for Firebase integration)
+
+    buildscript {
+        ext.kotlin_version = '1.7.20'
+        // ...
+        dependencies {
+            classpath 'com.android.tools.build:gradle:7.2.1'
+            classpath 'com.google.gms:google-services:4.3.10'
+            classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        }
+    }
+    
+
+Sources: [client/android/build.gradle1-13](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/android/build.gradle#L1-L13)
+
+### Repository Configuration
+
+The project uses the following repositories for resolving dependencies:
+
+*   Google (for Android and Google libraries)
+*   Maven Central (for general Java/Kotlin libraries)
+
+    allprojects {
+        repositories {
+            google()
+            mavenCentral()
+        }
+    }
+    
+
+Sources: [client/android/build.gradle15-20](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/android/build.gradle#L15-L20)
+
+### Project Structure
+
+The build configuration establishes a specific project structure:
+
+*   Root project build directory is set to '../build'
+*   Subprojects' build directories follow a standardized pattern
+*   Includes a clean task for removing all build outputs
+
+This structure ensures consistency across the Flutter project and proper integration with the Flutter build system.
+
+Sources: [client/android/build.gradle22-32](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/android/build.gradle#L22-L32)
+
+Firebase Integration
+--------------------
+
+The Android configuration includes Google Services plugin for Firebase integration, which is a critical component of the app's backend services.
+
+### Google Services Plugin
+
+The Google Services plugin (version 4.3.10) is included in the build configuration to facilitate Firebase integration. This plugin:
+
+1.  Processes the `google-services.json` file
+2.  Configures the application with Firebase credentials
+3.  Enables access to Firebase services such as Authentication, Realtime Database, and Cloud Storage
+
+The plugin is added as a classpath dependency in the root build.gradle file:
+
+    classpath 'com.google.gms:google-services:4.3.10'
+    
+
+Sources: [client/android/build.gradle10](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/android/build.gradle#L10-L10)
+
+Integration with Flutter
+------------------------
+
+The Android configuration is designed to work seamlessly with the Flutter framework, providing platform-specific functionality to the cross-platform codebase.
+
+### Flutter Embedding
+
+The application uses Flutter Embedding v2, which is declared in the manifest metadata:
+
+    <meta-data
+        android:name="flutterEmbedding"
+        android:value="2" />
+    
+
+This configuration enables the integration between Flutter and Android native components, allowing the app to leverage platform-specific features while maintaining the cross-platform Flutter UI.
+
+Sources: [client/android/app/src/main/AndroidManifest.xml38-40](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/android/app/src/main/AndroidManifest.xml#L38-L40)
+
+### Plugin Registration
+
+Flutter plugins are automatically registered by the Flutter tool, which generates the `GeneratedPluginRegistrant.java` file. This process is facilitated by the Flutter embedding configuration.
+
+Camera Configuration
+--------------------
+
+As a BeReal clone, the app heavily relies on camera functionality. The Android configuration includes specific settings for camera integration.
+
+### Camera Permissions
+
+The app requires the CAMERA permission to access the device's front and back cameras:
+
+    <uses-permission android:name="android.permission.CAMERA"/>
+    
+
+This permission is essential for the core functionality of taking dual photos (front and back camera simultaneously).
+
+Sources: [client/android/app/src/main/AndroidManifest.xml50](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/android/app/src/main/AndroidManifest.xml#L50-L50)
+
+### Image Processing
+
+The integration of UCrop Activity enables advanced image processing capabilities:
+
+    <activity
+        android:name="com.yalantis.ucrop.UCropActivity"
+        android:screenOrientation="portrait"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+    
+
+This component allows users to crop and adjust images before posting them, enhancing the photo sharing experience.
+
+Sources: [client/android/app/src/main/AndroidManifest.xml32-35](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/android/app/src/main/AndroidManifest.xml#L32-L35)
+
+Summary
+-------
+
+The Android configuration for the BeReal clone includes essential components for app functionality:
+
+1.  **Manifest Configuration**: Defines activities, permissions, and metadata
+2.  **Build System**: Uses Gradle with specific dependencies for Firebase and Kotlin
+3.  **Permissions**: Requires access to camera, contacts, and networking capabilities
+4.  **Firebase Integration**: Implements backend services through Google Services plugin
+5.  **Flutter Integration**: Configures the proper embedding and plugin registration
+
+This configuration enables the Android version of the application to function properly with access to all required device features while maintaining integration with the Flutter framework and Firebase backend services.</content>
+</page>
+
+<page>
+  <title>iOS Configuration | Antoinegtir/bereal-clone | DeepWiki</title>
+  <url>https://deepwiki.com/Antoinegtir/bereal-clone/6.2-ios-configuration</url>
+  <content>Relevant source files
+
+*   [client/ios/Podfile.lock](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/ios/Podfile.lock)
+*   [client/ios/Runner.xcodeproj/project.pbxproj](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/ios/Runner.xcodeproj/project.pbxproj)
+
+Purpose and Scope
+-----------------
+
+This document details the iOS-specific configuration required for the ReBeal application, a BeReal clone built with Flutter. It covers project structure, dependencies, required permissions, build settings, and integration with native iOS features. For Android-specific configuration, please refer to [Android Configuration](https://deepwiki.com/Antoinegtir/bereal-clone/6.1-android-configuration).
+
+Project Structure
+-----------------
+
+The iOS implementation follows standard Flutter iOS project structure with additional configurations for Firebase integration and platform-specific features.
+
+Sources: [client/ios/Runner.xcodeproj/project.pbxproj107-122](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/ios/Runner.xcodeproj/project.pbxproj#L107-L122)
+
+Dependencies Management
+-----------------------
+
+The application uses CocoaPods for dependency management. The `Podfile.lock` shows all resolved dependencies and their versions.
+
+### Core Dependencies
+
+| Category | Dependencies |
+| --- | --- |
+| Firebase | Analytics, Auth, Core, Database, RemoteConfig, Storage |
+| Camera | camera\_avfoundation, image\_picker\_ios, image\_cropper |
+| Storage | path\_provider\_foundation, sqflite |
+| Permissions | permission\_handler\_apple, contacts\_service |
+| UI | flutter\_native\_splash, shared\_preferences\_foundation |
+| Utilities | share\_plus, url\_launcher\_ios |
+
+Sources: [client/ios/Podfile.lock1-177](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/ios/Podfile.lock#L1-L177) [client/ios/Podfile.lock178-196](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/ios/Podfile.lock#L178-L196)
+
+Firebase Configuration
+----------------------
+
+Firebase services are central to the app's functionality. The Firebase configuration is managed through the `GoogleService-Info.plist` file.
+
+Sources: [client/ios/Runner.xcodeproj/project.pbxproj50-52](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/ios/Runner.xcodeproj/project.pbxproj#L50-L52) [client/ios/Podfile.lock6-24](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/ios/Podfile.lock#L6-L24) [client/ios/Podfile.lock25-47](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/ios/Podfile.lock#L25-L47)
+
+Build Configuration
+-------------------
+
+The project is configured with three build configurations: Debug, Release, and Profile. These settings are defined in the Xcode project file.
+
+### Key Build Settings
+
+| Setting | Value |
+| --- | --- |
+| Bundle Identifier | com.rebeal.clone |
+| Display Name | ReBeal. |
+| Deployment Target | iOS 11.0 |
+| Application Category | public.app-category.social-networking |
+| Development Team | 795UAKBD6U |
+| Swift Version | 5.0 |
+
+Sources: [client/ios/Runner.xcodeproj/project.pbxproj364-384](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/ios/Runner.xcodeproj/project.pbxproj#L364-L384) [client/ios/Runner.xcodeproj/project.pbxproj493-519](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/ios/Runner.xcodeproj/project.pbxproj#L493-L519) [client/ios/Runner.xcodeproj/project.pbxproj520-545](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/ios/Runner.xcodeproj/project.pbxproj#L520-L545)
+
+Required Permissions
+--------------------
+
+The app requires several iOS permissions to function properly. These permissions are declared in the Info.plist file and requested at runtime.
+
+Sources: [client/ios/Podfile.lock149-153](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/ios/Podfile.lock#L149-L153) [client/ios/Podfile.lock152-153](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/ios/Podfile.lock#L152-L153) [client/ios/Podfile.lock163-164](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/ios/Podfile.lock#L163-L164)
+
+Entitlements
+------------
+
+The app includes a Runner.entitlements file that defines app capabilities and entitlements required for specific iOS features.
+
+Sources: [client/ios/Runner.xcodeproj/project.pbxproj51](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/ios/Runner.xcodeproj/project.pbxproj#L51-L51) [client/ios/Runner.xcodeproj/project.pbxproj110](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/ios/Runner.xcodeproj/project.pbxproj#L110-L110) [client/ios/Runner.xcodeproj/project.pbxproj366](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/ios/Runner.xcodeproj/project.pbxproj#L366-L366) [client/ios/Runner.xcodeproj/project.pbxproj499](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/ios/Runner.xcodeproj/project.pbxproj#L499-L499) [client/ios/Runner.xcodeproj/project.pbxproj526](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/ios/Runner.xcodeproj/project.pbxproj#L526-L526)
+
+Build Process
+-------------
+
+The build process for the iOS app involves several automated steps defined in the project file.
+
+Sources: [client/ios/Runner.xcodeproj/project.pbxproj138-147](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/ios/Runner.xcodeproj/project.pbxproj#L138-L147) [client/ios/Runner.xcodeproj/project.pbxproj205-275](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/ios/Runner.xcodeproj/project.pbxproj#L205-L275)
+
+Integration with Flutter
+------------------------
+
+The iOS project integrates with Flutter through the Flutter framework and plugins. The main entry point is the AppDelegate.swift file.
+
+Sources: [client/ios/Runner.xcodeproj/project.pbxproj10-15](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/ios/Runner.xcodeproj/project.pbxproj#L10-L15) [client/ios/Runner.xcodeproj/project.pbxproj34-35](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/ios/Runner.xcodeproj/project.pbxproj#L34-L35) [client/ios/Runner.xcodeproj/project.pbxproj74-75](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/ios/Runner.xcodeproj/project.pbxproj#L74-L75) [client/ios/Runner.xcodeproj/project.pbxproj118](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/ios/Runner.xcodeproj/project.pbxproj#L118-L118) [client/ios/Runner.xcodeproj/project.pbxproj239-253](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/ios/Runner.xcodeproj/project.pbxproj#L239-L253)
+
+iOS-Specific Features
+---------------------
+
+### Camera Integration
+
+The application uses `camera_avfoundation` plugin to access the device's front and back cameras for capturing photos. The plugin provides iOS-specific implementation for camera functionality.
+
+### Image Processing
+
+For image manipulation, the app uses:
+
+*   `image_picker_ios` for selecting images from the photo library
+*   `image_cropper` with `TOCropViewController` for cropping and editing images
+
+### Data Storage
+
+The app uses SQLite for local data storage through the `sqflite` plugin, which depends on `FMDB` for iOS implementation.
+
+Sources: [client/ios/Podfile.lock2-3](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/ios/Podfile.lock#L2-L3) [client/ios/Podfile.lock149-152](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/ios/Podfile.lock#L149-L152) [client/ios/Podfile.lock152-153](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/ios/Podfile.lock#L152-L153) [client/ios/Podfile.lock171-173](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/ios/Podfile.lock#L171-L173)
+
+Third-Party Dependencies
+------------------------
+
+The complete list of third-party dependencies and their versions is documented in the Podfile.lock, ensuring consistent builds across development environments.
+
+Sources: [client/ios/Podfile.lock260-299](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/client/ios/Podfile.lock#L260-L299)</content>
+</page>
+
+<page>
+  <title>Development and Contribution | Antoinegtir/bereal-clone | DeepWiki</title>
+  <url>https://deepwiki.com/Antoinegtir/bereal-clone/7-development-and-contribution</url>
+  <content>Relevant source files
+
+*   [.circleci/.gitkeep](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/.circleci/.gitkeep)
+*   [.github/ISSUE\_TEMPLATE/bug\_report.md](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/.github/ISSUE_TEMPLATE/bug_report.md)
+*   [.github/ISSUE\_TEMPLATE/feature\_request.md](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/.github/ISSUE_TEMPLATE/feature_request.md)
+*   [.github/pull\_request\_template.md](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/.github/pull_request_template.md)
+*   [.github/workflows/dart.yml](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/.github/workflows/dart.yml)
+*   [.husky/pre-commit](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/.husky/pre-commit)
+*   [.husky/pre-push](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/.husky/pre-push)
+*   [package-lock.json](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/package-lock.json)
+
+This page provides guidance for developers who want to contribute to the ReBeal (BeReal clone) application. It covers the development workflow, contribution process, and CI/CD pipeline. For information about testing specifically, see [Testing](https://deepwiki.com/Antoinegtir/bereal-clone/7.2-testing). For system architecture details, refer to [System Architecture](https://deepwiki.com/Antoinegtir/bereal-clone/2-system-architecture).
+
+Development Environment Setup
+-----------------------------
+
+Before contributing to the ReBeal project, you need to set up your development environment:
+
+1.  **Prerequisites**:
+    
+    *   Flutter SDK (latest stable version)
+    *   Dart SDK
+    *   Firebase account (for backend services)
+    *   IDE (VS Code or Android Studio recommended)
+    *   Git
+2.  **Getting Started**:
+    
+    *   Clone the repository: `git clone https://github.com/Antoinegtir/bereal-clone.git`
+    *   Install dependencies: `flutter pub get`
+    *   Configure Firebase credentials (follow instructions in Firebase configuration documentation)
+
+Contribution Workflow
+---------------------
+
+The ReBeal project follows a standard GitHub workflow for contributions.
+
+### Contribution Process Flow
+
+Sources: [.github/ISSUE\_TEMPLATE/bug\_report.md](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/.github/ISSUE_TEMPLATE/bug_report.md) [.github/ISSUE\_TEMPLATE/feature\_request.md](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/.github/ISSUE_TEMPLATE/feature_request.md) [.github/pull\_request\_template.md](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/.github/pull_request_template.md)
+
+### Creating Issues
+
+The project uses issue templates for bug reports and feature requests:
+
+1.  **Bug Reports**:
+    
+    *   Navigate to the "Issues" tab and select "Bug report"
+    *   Fill in the template with:
+        *   Bug description
+        *   Steps to reproduce
+        *   Expected behavior
+        *   Screenshots (if applicable)
+        *   Device information
+2.  **Feature Requests**:
+    
+    *   Navigate to the "Issues" tab and select "Feature request"
+    *   Fill in the template with:
+        *   Problem description
+        *   Proposed solution
+        *   Alternative solutions considered
+        *   Additional context
+
+Sources: [.github/ISSUE\_TEMPLATE/bug\_report.md](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/.github/ISSUE_TEMPLATE/bug_report.md) [.github/ISSUE\_TEMPLATE/feature\_request.md](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/.github/ISSUE_TEMPLATE/feature_request.md)
+
+Pull Request Process
+--------------------
+
+When submitting code changes, follow these guidelines:
+
+1.  Create a branch with a descriptive name
+2.  Make your changes following the code style guidelines
+3.  Ensure tests pass locally
+4.  Submit a PR using the template
+
+The PR template requires:
+
+*   Lowercase description
+*   Markdown description of changes
+*   Preview images when applicable
+
+Example PR title: 🔀 Handle profile error
+
+Sources: [.github/pull\_request\_template.md](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/.github/pull_request_template.md)
+
+Git Hooks
+---------
+
+The project uses Husky to enforce pre-commit and pre-push hooks:
+
+Both pre-commit and pre-push hooks run Flutter tests to ensure code quality before changes are committed or pushed.
+
+Sources: [.husky/pre-commit](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/.husky/pre-commit) [.husky/pre-push](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/.husky/pre-push) [package-lock.json](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/package-lock.json)
+
+CI/CD Pipeline
+--------------
+
+The project uses GitHub Actions for continuous integration and delivery.
+
+### CI/CD Workflow
+
+The CI pipeline runs automatically when:
+
+*   A pull request is created or updated
+*   Code is pushed to the main branch
+
+Sources: [.github/workflows/dart.yml](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/.github/workflows/dart.yml)
+
+### CI Pipeline Details
+
+The CI workflow consists of several steps:
+
+| Step | Description | Command |
+| --- | --- | --- |
+| Setup | Set up Dart environment | Uses dart-lang/setup-dart action |
+| Dependencies | Install project dependencies | `dart pub get` |
+| Code Analysis | Static code analysis | `dart analyze` |
+| Tests | Run all tests | `dart test` |
+
+Sources: [.github/workflows/dart.yml](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/.github/workflows/dart.yml)
+
+Project Structure and Organization
+----------------------------------
+
+The ReBeal project follows a feature-based organization structure:
+
+Development Best Practices
+--------------------------
+
+### Code Style and Conventions
+
+*   Follow the [Dart style guide](https://dart.dev/guides/language/effective-dart/style)
+*   Use meaningful variable and function names
+*   Keep functions small and focused
+*   Use comments to explain complex logic
+
+### Testing Guidelines
+
+*   Write unit tests for all business logic
+*   Create widget tests for UI components
+*   Aim for high test coverage
+*   Tests run automatically on commit and push
+
+### Documentation
+
+*   Add documentation comments to public APIs
+*   Update the wiki for significant changes
+*   Include examples for complex functionality
+
+Troubleshooting Common Issues
+-----------------------------
+
+| Issue | Solution |
+| --- | --- |
+| Failed pre-commit hook | Run `flutter test` to identify and fix failing tests |
+| Firebase configuration errors | Verify the `google-services.json` and `GoogleService-Info.plist` files are correctly configured |
+| Package dependency conflicts | Run `flutter clean` followed by `flutter pub get` |
+| CI/CD pipeline failures | Check the GitHub Actions logs for specific error messages |
+
+Getting Help
+------------
+
+If you encounter issues while contributing to the project:
+
+1.  Check existing issues and documentation
+2.  Reach out to maintainers through GitHub issues
+3.  Join the development community (if applicable)
+
+By following these guidelines, you can effectively contribute to the ReBeal project while maintaining code quality and consistency.
+
+Sources: [.github/workflows/dart.yml](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/.github/workflows/dart.yml) [.husky/pre-commit](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/.husky/pre-commit) [.husky/pre-push](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/.husky/pre-push) [.github/pull\_request\_template.md](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/.github/pull_request_template.md) [.github/ISSUE\_TEMPLATE/bug\_report.md](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/.github/ISSUE_TEMPLATE/bug_report.md) [.github/ISSUE\_TEMPLATE/feature\_request.md](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/.github/ISSUE_TEMPLATE/feature_request.md)</content>
+</page>
+
+<page>
+  <title>CI/CD Pipeline | Antoinegtir/bereal-clone | DeepWiki</title>
+  <url>https://deepwiki.com/Antoinegtir/bereal-clone/7.1-cicd-pipeline</url>
+  <content>Relevant source files
+
+*   [.circleci/.gitkeep](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/.circleci/.gitkeep)
+*   [.github/ISSUE\_TEMPLATE/bug\_report.md](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/.github/ISSUE_TEMPLATE/bug_report.md)
+*   [.github/ISSUE\_TEMPLATE/feature\_request.md](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/.github/ISSUE_TEMPLATE/feature_request.md)
+*   [.github/pull\_request\_template.md](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/.github/pull_request_template.md)
+*   [.github/workflows/dart.yml](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/.github/workflows/dart.yml)
+
+This document describes the Continuous Integration and Continuous Deployment (CI/CD) pipeline for the ReBeal application. It explains the automated processes that run when code changes are submitted, how they ensure code quality, and how the pipeline integrates with the development workflow.
+
+Pipeline Overview
+-----------------
+
+The ReBeal project uses GitHub Actions as its primary CI platform. The workflow is configured to automatically trigger on code pushes to the main branch and when pull requests targeting the main branch are created or updated.
+
+**Diagram: CI/CD Workflow Overview**
+
+Sources:
+
+*   `.github/workflows/dart.yml`
+
+GitHub Actions Configuration
+----------------------------
+
+The CI pipeline is defined in the Dart workflow YAML file, which specifies the triggers, execution environment, and sequence of steps to perform.
+
+**Diagram: GitHub Actions Workflow Structure**
+
+The workflow specifically:
+
+1.  Runs on an Ubuntu latest environment
+2.  Checks out the repository code
+3.  Sets up the Dart SDK
+4.  Installs project dependencies
+5.  Performs static code analysis
+6.  Runs the test suite
+
+Sources:
+
+*   `.github/workflows/dart.yml:6-42`
+
+Integration with Development Workflow
+-------------------------------------
+
+The CI/CD pipeline integrates with the broader development workflow as follows:
+
+**Diagram: Development Workflow with CI Integration**
+
+The project includes standardized templates for:
+
+*   Bug reports (documenting issues that need fixing)
+*   Feature requests (proposing new functionality)
+*   Pull requests (submitting code changes for review)
+
+These templates ensure consistency in the development process and provide necessary context for the CI pipeline.
+
+Sources:
+
+*   `.github/pull_request_template.md`
+*   `.github/ISSUE_TEMPLATE/bug_report.md`
+*   `.github/ISSUE_TEMPLATE/feature_request.md`
+
+Pipeline Steps in Detail
+------------------------
+
+### 1\. Code Checkout and Environment Setup
+
+The workflow begins by checking out the repository and setting up the Dart development environment:
+
+**Diagram: Environment Setup Process**
+
+Sources:
+
+*   `.github/workflows/dart.yml:18-28`
+
+### 2\. Code Analysis and Testing
+
+Once the environment is set up, the pipeline performs static code analysis and runs tests:
+
+**Diagram: Analysis and Testing Process**
+
+Sources:
+
+*   `.github/workflows/dart.yml:34-42`
+
+Current Configuration and Potential Improvements
+------------------------------------------------
+
+The current CI pipeline focuses on basic code quality checks but has several possibilities for enhancement:
+
+| Current Feature | Status | Potential Improvement |
+| --- | --- | --- |
+| Code analysis | Active | Add stricter analysis with `--fatal-infos` flag |
+| Unit testing | Active | Migrate to `flutter test` for UI component testing |
+| Code formatting verification | Commented out | Enable `dart format` check for style consistency |
+| Multi-platform testing | Not implemented | Add runners for Windows, macOS, and mobile emulators |
+| Deployment automation | Not implemented | Add automatic deployment to testing environments |
+
+The pipeline includes commented code for format verification that could be enabled:
+
+    # Uncomment this step to verify the use of 'dart format' on each commit.
+    # - name: Verify formatting
+    #   run: dart format --output=none --set-exit-if-changed .
+    
+
+Sources:
+
+*   `.github/workflows/dart.yml:30-32`
+*   `.circleci/.gitkeep` (suggests potential plans for CircleCI integration)
+
+PR Status Check Integration
+---------------------------
+
+When a pull request is created, GitHub automatically displays the status of CI checks directly on the PR page:
+
+**Diagram: PR Status Check Flow**
+
+This integration provides immediate feedback to developers about whether their changes meet the project's quality standards.
+
+Sources:
+
+*   `.github/workflows/dart.yml:8-12`
+*   `.github/pull_request_template.md`
+
+Conclusion
+----------
+
+The CI/CD pipeline for the ReBeal project provides automated testing and code quality checks that help maintain the integrity of the codebase. While the current implementation is focused on basic CI functionality, there are several opportunities for enhancement to create a more comprehensive pipeline.
+
+For information about the testing approach itself, see [Testing](https://deepwiki.com/Antoinegtir/bereal-clone/7.2-testing).</content>
+</page>
+
+<page>
+  <title>Testing | Antoinegtir/bereal-clone | DeepWiki</title>
+  <url>https://deepwiki.com/Antoinegtir/bereal-clone/7.2-testing</url>
+  <content>Relevant source files
+
+*   [.husky/pre-commit](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/.husky/pre-commit)
+*   [.husky/pre-push](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/.husky/pre-push)
+*   [package-lock.json](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/package-lock.json)
+
+This document details the testing approach, methodologies, and infrastructure used in the ReBeal application. It covers unit testing, widget testing, integration testing, and how testing is integrated into the development workflow through Git hooks.
+
+For information about how testing fits into the broader continuous integration pipeline, see [CI/CD Pipeline](https://deepwiki.com/Antoinegtir/bereal-clone/7.1-cicd-pipeline).
+
+Testing Framework Overview
+--------------------------
+
+ReBeal utilizes Flutter's built-in testing framework to ensure code quality and reliability. Testing is enforced through Git hooks to maintain code integrity throughout the development process.
+
+Sources:
+
+*   [.husky/pre-commit1-7](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/.husky/pre-commit#L1-L7)
+*   [.husky/pre-push1-7](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/.husky/pre-push#L1-L7)
+
+Git Hooks Implementation
+------------------------
+
+The project uses Husky to configure Git hooks that automatically run tests before commits and pushes, preventing these actions if any tests fail.
+
+Pre-commit and pre-push hooks are configured to run the Flutter test suite:
+
+    #!/bin/sh
+    
+    flutter test
+    if [ $? -ne 0 ]; then
+      echo "Error: Tests failed. Please fix the failing tests before pushing."
+      exit 1
+    fi
+    
+
+Sources:
+
+*   [.husky/pre-commit1-7](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/.husky/pre-commit#L1-L7)
+*   [.husky/pre-push1-7](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/.husky/pre-push#L1-L7)
+*   [package-lock.json7-9](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/package-lock.json#L7-L9)
+
+Test Types and Organization
+---------------------------
+
+### Unit Tests
+
+Unit tests focus on verifying the functionality of individual components in isolation, particularly:
+
+| Component Type | Test Focus |
+| --- | --- |
+| Models | Data serialization/deserialization, validation |
+| State Providers | State updates, business logic |
+| Services | Firebase service interactions |
+| Utilities | Helper functions and utilities |
+
+### Widget Tests
+
+Widget tests verify UI components render correctly and respond appropriately to user interactions:
+
+| Widget Type | Test Focus |
+| --- | --- |
+| Custom Widgets | Rendering, layout, responsiveness |
+| Pages | Component composition, navigation |
+| Feed Posts | Image toggle, interaction elements |
+| Forms | Input validation, submission |
+
+### Integration Tests
+
+Integration tests verify that different components work together correctly:
+
+| Integration Area | Test Focus |
+| --- | --- |
+| Authentication Flow | Sign-up, login, profile creation |
+| Post Creation | Camera capture, image upload, post creation |
+| Feed Display | Post loading, rendering, interactions |
+| Notifications | Push notification handling |
+
+Firebase Testing Strategy
+-------------------------
+
+Testing Firebase interactions requires special consideration. ReBeal tests Firebase functionality using:
+
+Sources:
+
+*   [.husky/pre-commit1-7](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/.husky/pre-commit#L1-L7)
+*   [.husky/pre-push1-7](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/.husky/pre-push#L1-L7)
+
+Test Data Management
+--------------------
+
+The ReBeal test suite uses fixtures and mocks to simulate application data and dependencies:
+
+| Data Type | Purpose | Implementation |
+| --- | --- | --- |
+| User Models | Authentication testing | Mock user profiles |
+| Post Models | Feed and display testing | Sample posts with test images |
+| Firebase Responses | Mock backend responses | Simulated Firebase query results |
+| Camera Input | Camera integration testing | Mock camera captures |
+
+Example Test Structure
+----------------------
+
+A typical test file in the ReBeal application follows this structure:
+
+    // Import test framework
+    import 'package:flutter_test/flutter_test.dart';
+    
+    // Import components to test
+    import 'package:bereal_clone/models/user_model.dart';
+    
+    void main() {
+      group('UserModel', () {
+        test('should properly parse from JSON', () {
+          // Test implementation
+        });
+        
+        test('should properly convert to JSON', () {
+          // Test implementation
+        });
+      });
+    }
+    
+
+Test Coverage and Metrics
+-------------------------
+
+ReBeal tracks test coverage to ensure critical code paths are tested:
+
+Camera System Testing
+---------------------
+
+The camera system is a critical component of ReBeal that requires specialized testing:
+
+Automated Testing Workflow
+--------------------------
+
+The test automation workflow in ReBeal is designed to catch issues early in the development process:
+
+Sources:
+
+*   [.husky/pre-commit1-7](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/.husky/pre-commit#L1-L7)
+*   [.husky/pre-push1-7](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/.husky/pre-push#L1-L7)
+
+Test Environment Configuration
+------------------------------
+
+The test environment is configured to isolate tests from production systems:
+
+| Environment Component | Configuration |
+| --- | --- |
+| Firebase | Use emulators or mock implementations |
+| Filesystem | Use temporary test directories |
+| Network | Mock HTTP responses for external services |
+| Platform Channels | Mock platform-specific functionality |
+
+Conclusion
+----------
+
+The testing strategy for ReBeal ensures quality at multiple levels, from individual components to complex user workflows. By enforcing testing through Git hooks, the application maintains high standards throughout development. This multi-layered approach to testing helps identify issues early and ensures a reliable user experience.
+
+Sources:
+
+*   [.husky/pre-commit1-7](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/.husky/pre-commit#L1-L7)
+*   [.husky/pre-push1-7](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/.husky/pre-push#L1-L7)
+*   [package-lock.json7-9](https://github.com/Antoinegtir/bereal-clone/blob/049f6fe8/package-lock.json#L7-L9)</content>
+</page>

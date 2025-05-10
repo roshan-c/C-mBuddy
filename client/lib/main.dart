@@ -7,7 +7,7 @@ import 'package:rebeal/common/splash.dart';
 import 'package:rebeal/state/app.state.dart';
 import 'package:rebeal/state/auth.state.dart';
 import 'package:provider/provider.dart';
-import 'package:rebeal/state/post.state.dart';
+import 'package:rebeal/state/log.state.dart';
 import 'package:rebeal/state/search.state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -45,7 +45,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider<AppStates>(create: (_) => AppStates()),
         ChangeNotifierProvider<AuthState>(create: (_) => AuthState()),
-        ChangeNotifierProvider<PostState>(create: (_) => PostState()),
+        ChangeNotifierProvider<LogState>(create: (_) => LogState()),
         ChangeNotifierProvider<SearchState>(create: (_) => SearchState()),
       ],
       child: MaterialApp(

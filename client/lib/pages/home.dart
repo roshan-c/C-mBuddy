@@ -5,10 +5,11 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:rebeal/camera/camera.dart';
-import 'package:rebeal/model/post.module.dart';
-import 'package:rebeal/model/user.module.dart';
-import 'package:rebeal/state/auth.state.dart';
-import 'package:rebeal/state/post.state.dart';
+import './create_log.dart';
+import '../model/post.module.dart';
+import '../model/user.module.dart';
+import '../state/auth.state.dart';
+import '../state/log.state.dart';
 import 'package:rebeal/state/search.state.dart';
 import 'package:rebeal/styles/color.dart';
 import 'package:rebeal/pages/myprofile.dart';
@@ -64,9 +65,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   }
 
   void initPosts() {
-    var state = Provider.of<PostState>(context, listen: false);
-    state.databaseInit();
-    state.getDataFromDatabase();
+    var logState = Provider.of<LogState>(context, listen: false);
+    logState.databaseInit();
+    logState.getDataFromDatabase();
   }
 
   void _scrollListener() {
@@ -99,7 +100,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     var authState = Provider.of<AuthState>(context, listen: false);
-    final state = Provider.of<SearchState>(context);
+    final searchStateProvider = Provider.of<SearchState>(context);
 
     return Scaffold(
         extendBody: true,
@@ -117,7 +118,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => CameraPage()));
+                                  builder: (context) => const CreateLogPage()));
                         },
                         child: Container(
                             height: 80,
@@ -243,206 +244,149 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         physics: NeverScrollableScrollPhysics(),
                         controller: _tabController,
                         children: [
-                            Consumer<PostState>(
-                                builder: (context, state, child) {
-                              final now = DateTime.now();
-                              final List<PostModel>? list = state
-                                  .getPostLists(authState.userModel)!
-                                  .where((x) =>
-                                      now
-                                          .difference(
-                                              DateTime.parse(x.createdAt))
-                                          .inHours <
-                                      24)
-                                  .toList();
-                              while (list!.length < 10) {
-                                list.add(PostModel(
-                                  imageFrontPath:
-                                      "https://htmlcolorcodes.com/assets/images/colors/black-color-solid-background-1920x1080.png",
-                                  imageBackPath:
-                                      "https://htmlcolorcodes.com/assets/images/colors/black-color-solid-background-1920x1080.png",
-                                  createdAt: "",
-                                  user: UserModel(
-                                    displayName: "",
-                                  ),
-                                ));
+                            Consumer<LogState>(
+                                builder: (context, logState, child) {
+                              final List<LogModel>? list = logState.getLogLists(authState.userModel);
+                              if (list == null || list.isEmpty) {
+                                return Center(
+                                  child: Text('No logs to display in grid', style: TextStyle(color: Colors.white)),
+                                );
                               }
                               return RefreshIndicator(
-                                  color: Colors.transparent,
-                                  backgroundColor: Colors.transparent,
-                                  onRefresh: () {
-                                    HapticFeedback.mediumImpact();
-                                    return _bodyView();
-                                  },
-                                  child: AnimatedOpacity(
-                                      opacity: _isGrid ? 1 : 0,
-                                      duration: Duration(milliseconds: 1000),
-                                      child: Padding(
-                                          padding: EdgeInsets.all(15),
-                                          child: GridView.builder(
-                                              gridDelegate:
-                                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                                      crossAxisCount: 3,
-                                                      childAspectRatio: 0.8,
-                                                      mainAxisSpacing: 10,
-                                                      crossAxisSpacing: 10),
-                                              controller: _scrollController,
-                                              itemCount: list.length,
-                                              itemBuilder: (context, index) {
-                                                return GridPostWidget(
-                                                    postModel: list[index]);
-                                              }))));
+                                  backgroundColor: ReBealColor.ReBealDarkGrey,
+                                  color: Colors.white,
+                                  strokeWidth: 2,
+                                  onRefresh: _bodyView,
+                                  child: GridView.builder(
+                                    controller: _scrollController,
+                                    itemCount: list.length,
+                                    gridDelegate:
+                                        SliverGridDelegateWithFixedCrossAxisCount(
+                                            crossAxisCount: 2,
+                                            mainAxisSpacing: 2,
+                                            crossAxisSpacing: 2),
+                                    itemBuilder: (context, index) {
+                                      return GridPostWidget(logModel: list[index]);
+                                    },
+                                  ));
                             }),
-                          ])
+                            Consumer<LogState>(
+                                builder: (context, logState, child) {
+                              final List<LogModel>? list = logState.getLogLists(authState.userModel);
+                              if (list == null || list.isEmpty) {
+                                return Center(
+                                  child: Text('No logs for Friends tab', style: TextStyle(color: Colors.white)),
+                                );
+                              }
+                              return RefreshIndicator(
+                                  backgroundColor: ReBealColor.ReBealDarkGrey,
+                                  color: Colors.white,
+                                  strokeWidth: 2,
+                                  onRefresh: _bodyView,
+                                  child: ListView.builder(
+                                    controller: _scrollController,
+                                    itemCount: list.length,
+                                    itemBuilder: (context, index) {
+                                      return FeedPostWidget(logModel: list[index]);
+                                    },
+                                  ));
+                            }),
+                            Consumer<LogState>(
+                                builder: (context, logState, child) {
+                              final List<LogModel>? list = logState.getLogLists(null);
+                              if (list == null || list.isEmpty) {
+                                return Center(
+                                  child: Text('No discovery logs for grid', style: TextStyle(color: Colors.white)),
+                                );
+                              }
+                              return RefreshIndicator(
+                                  backgroundColor: ReBealColor.ReBealDarkGrey,
+                                  color: Colors.white,
+                                  strokeWidth: 2,
+                                  onRefresh: _bodyView,
+                                  child: GridView.builder(
+                                    controller: _scrollController,
+                                    itemCount: list.length,
+                                    gridDelegate:
+                                        SliverGridDelegateWithFixedCrossAxisCount(
+                                            crossAxisCount: 2,
+                                            mainAxisSpacing: 2,
+                                            crossAxisSpacing: 2),
+                                    itemBuilder: (context, index) {
+                                      return GridPostWidget(logModel: list[index]);
+                                    },
+                                  ));
+                            }),
+                          ]
+                        )
                     : TabBarView(
                         physics: NeverScrollableScrollPhysics(),
                         controller: _tabController,
                         children: [
-                            Consumer<PostState>(
-                                builder: (context, state, child) {
-                              final List<PostModel>? list =
-                                  state.getPostList(authState.userModel);
-
-                              return RefreshIndicator(
-                                  color: Colors.transparent,
-                                  backgroundColor: Colors.transparent,
-                                  onRefresh: () {
-                                    HapticFeedback.mediumImpact();
-                                    return _bodyView();
-                                  },
-                                  child: AnimatedOpacity(
-                                      opacity: !_isGrid ? 1 : 0,
-                                      duration: Duration(milliseconds: 300),
-                                      child: ListView.builder(
-                                          controller: _scrollController,
-                                          itemCount: list?.length ?? 0,
-                                          itemBuilder: (context, index) {
-                                            return FeedPostWidget(
-                                              postModel: list![index],
-                                            );
-                                          })));
-                            }),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Container(
-                                  height: 140,
-                                ),
-                                Container(
-                                  width:
-                                      MediaQuery.of(context).size.width / 1.1,
-                                  decoration: BoxDecoration(
-                                      color: ReBealColor.ReBealDarkGrey,
-                                      borderRadius: BorderRadius.circular(20)),
-                                  alignment: Alignment.topCenter,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                          padding: EdgeInsets.only(
-                                              top: 20, left: 10),
-                                          child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(5),
-                                              child: Container(
-                                                height: 25,
-                                                width: 40,
-                                                color: Colors.white,
-                                                alignment: Alignment.center,
-                                                child: Text(
-                                                  "NEW",
-                                                  style: TextStyle(
-                                                      fontSize: 13,
-                                                      color: Colors.black,
-                                                      fontWeight:
-                                                          FontWeight.w800),
-                                                ),
-                                              ))),
-                                      Padding(
-                                          padding: EdgeInsets.only(
-                                              top: 10, left: 10),
-                                          child: Text(
-                                            "DISCOVER YOU'RE\nFRIENDS OF FRIENDS",
-                                            style: TextStyle(
-                                                fontSize: 28,
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.w700),
-                                          )),
-                                      Container(
-                                          height: 300,
-                                          child: ListView.builder(
-                                            physics:
-                                                NeverScrollableScrollPhysics(),
-                                            itemBuilder: (context, index) {
-                                              return Container(
-                                                  height: 60,
-                                                  child: UserTilePage(
-                                                    user:
-                                                        state.userlist![index],
-                                                    isadded: true,
-                                                  ));
-                                            },
-                                            itemCount: 2,
-                                          )),
-                                      Padding(
-                                          padding: EdgeInsets.only(
-                                            left: 15,
-                                            bottom: 20,
-                                            right: 15,
-                                          ),
-                                          child: RippleButton(
-                                              splashColor: Colors.transparent,
-                                              child: Container(
-                                                  height: 55,
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width -
-                                                      40,
-                                                  decoration: BoxDecoration(
-                                                    color: Colors.white,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            15),
-                                                  ),
-                                                  child: Center(
-                                                      child: Text(
-                                                    "Share ReBeal in order to discover",
-                                                    style: TextStyle(
-                                                        fontFamily: "icons.ttf",
-                                                        color: Colors.black,
-                                                        fontSize: 15,
-                                                        fontWeight:
-                                                            FontWeight.w600),
-                                                  ))),
-                                              onPressed: () {})),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Consumer<PostState>(
-                                builder: (context, state, child) {
-                              final now = DateTime.now();
-                              final List<PostModel>? list = state
-                                  .getPostLists(authState.userModel)!
-                                  .where((x) =>
-                                      now
-                                          .difference(
-                                              DateTime.parse(x.createdAt))
-                                          .inHours <
-                                      24)
-                                  .toList();
-                              return ListView.builder(
+                          Consumer<LogState>(
+                              builder: (context, logState, child) {
+                            final List<LogModel>? list = logState.getLogList(authState.userModel);
+                            if (list == null || list.isEmpty) {
+                              return Center(
+                                child: Text('No logs for your friends yet', style: TextStyle(color: Colors.white)),
+                              );
+                            }
+                            return RefreshIndicator(
+                                backgroundColor: ReBealColor.ReBealDarkGrey,
+                                color: Colors.white,
+                                strokeWidth: 2,
+                                onRefresh: _bodyView,
+                                child: ListView.builder(
                                   controller: _scrollController,
-                                  itemCount: list?.length ?? 0,
+                                  itemCount: list.length,
                                   itemBuilder: (context, index) {
-                                    return FeedPostWidget(
-                                      postModel: list![index],
-                                    );
-                                  });
-                            }),
-                          ]))));
+                                    return FeedPostWidget(logModel: list[index]);
+                                  },
+                                ));
+                          }),
+                          Consumer<SearchState>(
+                              builder: (context, searchState, child) {
+                            final List<UserModel>? list = searchState.userlist;
+                            if (list == null || list.isEmpty) {
+                              return Center(
+                                  child: Text('No friends to display yet', style: TextStyle(color: Colors.white)));
+                            }
+                            return RefreshIndicator(
+                                backgroundColor: ReBealColor.ReBealDarkGrey,
+                                color: Colors.white,
+                                strokeWidth: 2,
+                                onRefresh: _bodyView,
+                                child: ListView.builder(
+                                  controller: _scrollController,
+                                  itemCount: list.length,
+                                  itemBuilder: (context, index) {
+                                    return UserTilePage(user: list[index], isadded: true);
+                                  },
+                                ));
+                          }),
+                          Consumer<SearchState>(
+                              builder: (context, searchState, child) {
+                            final List<UserModel>? list = searchState.userlist;
+                            if (list == null || list.isEmpty) {
+                              return Center(
+                                child: Text('No one to discover yet', style: TextStyle(color: Colors.white)),
+                              );
+                            }
+                            return RefreshIndicator(
+                                backgroundColor: ReBealColor.ReBealDarkGrey,
+                                color: Colors.white,
+                                strokeWidth: 2,
+                                onRefresh: _bodyView,
+                                child: ListView.builder(
+                                  controller: _scrollController,
+                                  itemCount: list.length,
+                                  itemBuilder: (context, index) {
+                                    return UserTilePage(user: list[index], isadded: false);
+                                  },
+                                ));
+                          }),
+                        ],
+                      )))
+    );
   }
 }

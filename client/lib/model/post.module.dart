@@ -3,42 +3,56 @@
 import 'package:flutter/src/widgets/basic.dart';
 import 'package:rebeal/model/user.module.dart';
 
-class PostModel {
+class LogModel {
   String? key;
-  String? imageFrontPath;
-  String? imageBackPath;
-  String? bio;
+  String? notes;
   late String createdAt;
   UserModel? user;
-  List<String?>? comment;
+  int? intensity_rating;
+  int? duration_minutes;
+  String? location;
+  bool was_partner_involved = false;
+  List<String>? custom_tags;
 
-  PostModel({
+  LogModel({
     this.key,
     required this.createdAt,
-    this.imageFrontPath,
-    this.bio,
-    this.imageBackPath,
+    this.notes,
     this.user,
+    this.intensity_rating,
+    this.duration_minutes,
+    this.location,
+    this.was_partner_involved = false,
+    this.custom_tags,
   });
 
   toJson() {
     return {
+      "key": key,
+      "notes": notes,
       "createdAt": createdAt,
-      "bio": bio,
-      "imageBackPath": imageBackPath,
-      "imageFrontPath": imageFrontPath,
       "user": user == null ? null : user!.toJson(),
+      "intensity_rating": intensity_rating,
+      "duration_minutes": duration_minutes,
+      "location": location,
+      "was_partner_involved": was_partner_involved,
+      "custom_tags": custom_tags,
     };
   }
 
-  PostModel.fromJson(Map<dynamic, dynamic> map) {
+  LogModel.fromJson(Map<dynamic, dynamic> map) {
     key = map['key'];
-    bio = map['bio'];
-    imageBackPath = map['imageBackPath'];
+    notes = map['notes'];
     createdAt = map['createdAt'];
-    imageFrontPath = map['imageFrontPath'];
-    user = UserModel.fromJson(map['user']);
+    user = map['user'] != null ? UserModel.fromJson(map['user']) : null;
+    intensity_rating = map['intensity_rating'];
+    duration_minutes = map['duration_minutes'];
+    location = map['location'];
+    was_partner_involved = map['was_partner_involved'] ?? false;
+    if (map['custom_tags'] != null) {
+      custom_tags = List<String>.from(map['custom_tags']);
+    } else {
+      custom_tags = null;
+    }
   }
-
-  map(Stack Function(dynamic model) param0) {}
 }

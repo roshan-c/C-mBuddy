@@ -39,7 +39,7 @@ class _NotificationState extends State<NotifcationTest> {
               height: 30,
             ),
             Text(
-              "\n${state.profileUserModel!.displayName}, we know you can do it!\nTap the\nnotification to get your first ReBeal.",
+              "\n${state.profileUserModel!.displayName}, notifications are working!\nThis is a test notification.",
               style: TextStyle(
                   color: Colors.white,
                   fontSize: 40,
@@ -85,7 +85,7 @@ class _NotificationState extends State<NotifcationTest> {
                               ),
                               child: Center(
                                   child: Text(
-                                "Resend notification",
+                                "Resend Test Notification",
                                 style: TextStyle(
                                     fontFamily: "icons.ttf",
                                     color: Colors.black,
