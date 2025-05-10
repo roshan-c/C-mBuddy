@@ -6,13 +6,16 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:rebeal/model/post.module.dart';
-import 'package:rebeal/state/post.state.dart';
+
 import 'package:rebeal/state/profile.state.dart';
 import 'package:rebeal/styles/color.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../model/user.module.dart';
+// New Imports
+import 'package:rebeal/state/log.state.dart';
+import 'package:rebeal/model/post.module.dart'; // For LogModel
+import 'package:rebeal/widget/gridpost.dart';   // For GridPostWidget
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key, required this.profileId, this.scaffoldKey})
@@ -56,11 +59,17 @@ class _ProfilePageState extends State<ProfilePage> {
   int pageIndex = 0;
   int counter = 3;
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+  final controller = ScrollController();
+  double rateScroll = 0;
+  double opacity = -5;
+
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       var authstate = Provider.of<ProfileState>(context, listen: false);
-      isMyProfile = authstate.isMyProfile;
+      setState(() {
+        isMyProfile = authstate.isMyProfile;
+      });
     });
     super.initState();
   }
@@ -72,9 +81,9 @@ class _ProfilePageState extends State<ProfilePage> {
 
   bool isFollower() {
     var authstate = Provider.of<ProfileState>(context, listen: false);
-    if (authstate.profileUserModel.followersList != null &&
-        authstate.profileUserModel.followersList!.isNotEmpty) {
-      return (authstate.profileUserModel.followersList!
+    if (authstate.profileUserModel?.followersList != null &&
+        authstate.profileUserModel!.followersList!.isNotEmpty) {
+      return (authstate.profileUserModel!.followersList!
           .any((x) => x == authstate.userId));
     } else {
       return false;
@@ -84,11 +93,6 @@ class _ProfilePageState extends State<ProfilePage> {
   Future<bool> _onWillPop() async {
     return true;
   }
-
-  final controller = ScrollController();
-
-  double rateScroll = 0;
-  double opacity = -5;
 
   void _shareText(String name) {
     Share.share(
@@ -132,52 +136,18 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    var state = Provider.of<PostState>(context);
-    var authstate = Provider.of<ProfileState>(context);
+    var profileState = Provider.of<ProfileState>(context);
+    var logState = Provider.of<LogState>(context);
 
-    List<PostModel>? list;
-    DateTime now = DateTime.now();
-
-    if (state.feedlist != null && state.feedlist!.isNotEmpty) {
-      list = state.feedlist!
-          .where(
-              (x) => now.difference(DateTime.parse(x.createdAt)).inHours < 104)
-          .toList();
+    List<LogModel>? profileUserLogs;
+    if (!profileState.isbusy && profileState.profileUserModel != null && logState.feedlist != null) {
+      profileUserLogs = logState.feedlist!
+          .where((log) => log.user?.userId == profileState.profileUserModel!.userId)
+          .toList().reversed.toList();
     }
-    list!.insert(
-        0,
-        PostModel(
-          imageFrontPath:
-              "https://htmlcolorcodes.com/assets/images/colors/black-color-solid-background-1920x1080.png",
-          imageBackPath:
-              "https://htmlcolorcodes.com/assets/images/colors/black-color-solid-background-1920x1080.png",
-          createdAt: "",
-          bio: "",
-          user: UserModel(
-            displayName: "",
-          ),
-        ));
-    DateTime? createdAt;
 
-    if (list.last.createdAt.isNotEmpty) {
-      createdAt = DateTime.parse(list.last.createdAt);
-    }
-    String? timeAgo;
-    if (createdAt != null) {
-      Duration difference = now.difference(createdAt);
-
-      if (difference.inSeconds < 60) {
-        timeAgo = 'A few seconds ago';
-      } else if (difference.inMinutes < 60) {
-        int minutes = difference.inMinutes;
-        timeAgo = 'Few $minutes minute${minutes > 1 ? 's' : ''} ago';
-      } else {
-        int hours = difference.inHours;
-        timeAgo = 'Few $hours heure${hours > 1 ? 's' : ''} ago';
-      }
-    }
-    return authstate.isbusy
-        ? Container()
+    return profileState.isbusy || profileState.profileUserModel == null
+        ? Center(child: CircularProgressIndicator(color: Colors.white))
         : WillPopScope(
             onWillPop: _onWillPop,
             child: Scaffold(
@@ -217,7 +187,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           onStretchTrigger: () {
                             return Future<void>.value();
                           },
-                          title: Text(authstate.userModel.userName!
+                          title: Text(profileState.profileUserModel!.userName!
                               .replaceAll("@", "")),
                           backgroundColor: Colors.black.withOpacity(0),
                           expandedHeight:
@@ -239,8 +209,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                   padding: const EdgeInsets.only(top: 0),
                                   child: CachedNetworkImage(
                                       fit: BoxFit.cover,
-                                      imageUrl: authstate
-                                              .profileUserModel.profilePic ??
+                                      imageUrl: profileState
+                                              .profileUserModel!.profilePic ??
                                           "https://i.pinimg.com/originals/f1/0f/f7/f10ff70a7155e5ab666bcdd1b45b726d.jpg"),
                                 ),
                                 Padding(
@@ -249,72 +219,51 @@ class _ProfilePageState extends State<ProfilePage> {
                                       height: 50,
                                       decoration: BoxDecoration(
                                           gradient: LinearGradient(
-                                              begin: Alignment.bottomRight,
-                                              end: Alignment.topRight,
+                                              begin: Alignment.topCenter,
+                                              end: Alignment.bottomCenter,
                                               colors: [
-                                            for (double i = 1; i > 0; i -= 0.01)
-                                              Colors.black.withOpacity(i),
+                                            Colors.transparent,
+                                            Colors.black.withOpacity(0.9)
                                           ]))),
                                 ),
-                                Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 0,
-                                        top:
-                                            MediaQuery.of(context).size.height /
-                                                2.25),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
-                                      children: [
-                                        Text(
-                                          authstate
-                                              .profileUserModel.displayName!,
-                                          style: TextStyle(
-                                            fontFamily: 'Outfit',
-                                            fontSize: 38,
-                                            fontWeight: FontWeight.w500,
-                                            letterSpacing: 0.96,
-                                            color: Colors.white,
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                          left: 0,
+                                          top:
+                                              MediaQuery.of(context).size.height /
+                                                  2.25),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                        children: [
+                                          Text(
+                                            profileState
+                                                .profileUserModel!.displayName!,
+                                            style: TextStyle(
+                                              fontFamily: 'Outfit',
+                                              fontSize: 38,
+                                              fontWeight: FontWeight.w500,
+                                              letterSpacing: 0.96,
+                                              color: Colors.white,
+                                            ),
+                                            textAlign: TextAlign.left,
                                           ),
-                                          textAlign: TextAlign.left,
-                                        ),
-                                        Container(
-                                          width: 100,
-                                        ),
-                                        GestureDetector(
-                                            onTap: () {
-                                              _shareText(authstate
-                                                  .userModel.userName!
-                                                  .replaceAll("@", ""));
-                                            },
-                                            child: Container(
-                                                height: 35,
-                                                width: 35,
-                                                decoration: BoxDecoration(
-                                                    shape: BoxShape.circle,
-                                                    color: Colors.white),
-                                                alignment: Alignment.center,
-                                                child: Icon(
-                                                  CupertinoIcons.share,
-                                                  color: Colors.black,
-                                                  size: 18,
-                                                )))
-                                      ],
-                                    )),
-                                Padding(
-                                    padding: EdgeInsets.only(bottom: 300),
-                                    child: Container(
-                                        height: 50,
-                                        decoration: BoxDecoration(
-                                            gradient: LinearGradient(
-                                                begin: Alignment.topRight,
-                                                end: Alignment.bottomRight,
-                                                colors: [
-                                              for (double i = 1;
-                                                  i > 0;
-                                                  i -= 0.01)
-                                                Colors.black.withOpacity(i),
-                                            ]))))
+                                          Container(
+                                            width: 100,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Container(
+                                      height:
+                                          MediaQuery.of(context).size.height /
+                                              10,
+                                    ),
+                                  ],
+                                )
                               ],
                             ),
                           ),
@@ -325,7 +274,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               Padding(
                                   padding: EdgeInsets.only(left: 20),
                                   child: Text(
-                                    authstate.profileUserModel.bio!,
+                                    profileState.profileUserModel!.bio ?? "",
                                     style: TextStyle(
                                       fontFamily: 'Outfit',
                                       fontSize: 18,
@@ -337,64 +286,42 @@ class _ProfilePageState extends State<ProfilePage> {
                                   )),
                               isMyProfile
                                   ? Container()
-                                  : isFollower()
-                                      ? Container()
-                                      : Center(
-                                          child: Padding(
-                                            padding: EdgeInsets.fromLTRB(
-                                                0, 20, 0, 0),
-                                            child: GestureDetector(
-                                                onTap: () {
-                                                  authstate.followUser(
-                                                      removeFollower:
-                                                          isFollower());
-                                                },
-                                                child: ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(12),
-                                                  child: Container(
-                                                      color: Colors.white,
-                                                      height: 45,
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              1.1,
-                                                      alignment:
-                                                          Alignment.center,
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          Icon(
-                                                            CupertinoIcons
-                                                                .person_crop_circle_badge_plus,
-                                                            color: Colors.black,
-                                                            size: 20,
-                                                          ),
-                                                          Container(
-                                                            width: 9,
-                                                          ),
-                                                          Text(
-                                                            'Add',
-                                                            style: TextStyle(
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 15,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600,
-                                                            ),
-                                                          ),
-                                                          Container(
-                                                            width: 9,
-                                                          ),
-                                                        ],
-                                                      )),
-                                                )),
-                                          ),
-                                        ),
+                                  : Padding(
+                                      padding: EdgeInsets.only(
+                                          top: 20, right: 20, left: 20),
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          profileState.followUser(
+                                              removeFollower: isFollower());
+                                        },
+                                        child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(50),
+                                            child: Container(
+                                                color: isFollower()
+                                                    ? ReBealColor
+                                                        .ReBealDarkGrey
+                                                    : Colors.white,
+                                                height: 45,
+                                                width:
+                                                    MediaQuery.of(context)
+                                                            .size
+                                                            .width /
+                                                        1.1,
+                                                alignment: Alignment.center,
+                                                child: Text(
+                                                  isFollower()
+                                                      ? 'Unfollow'
+                                                      : 'Follow',
+                                                  style: TextStyle(
+                                                    color: isFollower()
+                                                        ? Colors.white
+                                                        : Colors.black,
+                                                    fontSize: 15,
+                                                    fontWeight:
+                                                        FontWeight.w600,
+                                                  ),
+                                                )))));
                               Container(
                                 height: 7,
                               ),
@@ -450,105 +377,33 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                       ];
                     },
-                    body: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            ClipRRect(
-                                borderRadius: BorderRadius.circular(20),
-                                child: BackdropFilter(
-                                    filter: ImageFilter.blur(
-                                        sigmaX: 20, sigmaY: 20),
-                                    child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(20),
-                                        child: Container(
-                                          height: 150,
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              1.2,
-                                          child: CachedNetworkImage(
-                                              fit: BoxFit.cover,
-                                              imageUrl: list.last.imageFrontPath
-                                                  .toString()),
-                                        )))),
-                            ClipRRect(
-                                borderRadius: BorderRadius.circular(20),
-                                child: BackdropFilter(
-                                    filter: ImageFilter.blur(
-                                        sigmaX: 20, sigmaY: 20),
-                                    child: Container(
-                                      height: 155,
-                                      width: MediaQuery.of(context).size.width /
-                                          1.2,
-                                      color: Colors.transparent,
-                                    ))),
-                            Row(
-                              children: [
-                                Container(
-                                  width: 50,
-                                ),
-                                Stack(
-                                  children: [
-                                    ClipRRect(
-                                        borderRadius: BorderRadius.circular(10),
-                                        child: Container(
-                                            height: 125,
-                                            width: 90,
-                                            child: CachedNetworkImage(
-                                                fit: BoxFit.cover,
-                                                imageUrl: list
-                                                    .last.imageBackPath
-                                                    .toString()))),
-                                    ClipRRect(
-                                        borderRadius: BorderRadius.circular(10),
-                                        child: BackdropFilter(
-                                            filter: ImageFilter.blur(
-                                                sigmaX: 5, sigmaY: 5),
-                                            child: Container(
-                                              height: 125,
-                                              width: 90,
-                                              color: Colors.transparent,
-                                            ))),
-                                  ],
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    Text(
-                                      timeAgo == null ? "" : "   REBEAL OF DAY",
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                    Text(
-                                      timeAgo == null ? "" : "   $timeAgo",
-                                      style: TextStyle(
-                                          color: Colors.grey, fontSize: 12),
-                                      textAlign: TextAlign.left,
-                                    ),
-                                    Container(
-                                      height: 80,
-                                    ),
-                                    Text(
-                                      "   ${list.last.bio == null ? "" : list.last.bio}",
-                                      style: TextStyle(
-                                          color: Colors.grey, fontSize: 12),
-                                      textAlign: TextAlign.left,
-                                    )
-                                  ],
-                                )
-                              ],
+                    body: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: (profileUserLogs == null || profileUserLogs.isEmpty)
+                          ? Center(
+                              child: Text(
+                                "This user hasn't posted any logs yet.",
+                                style: TextStyle(color: Colors.white70, fontSize: 16),
+                              ),
                             )
-                          ],
-                        )
-                      ],
-                    ))));
+                          : GridView.builder(
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              itemCount: profileUserLogs.length,
+                              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 3,
+                                crossAxisSpacing: 8,
+                                mainAxisSpacing: 8,
+                                childAspectRatio: 1,
+                              ),
+                              itemBuilder: (context, index) {
+                                return GridPostWidget(logModel: profileUserLogs![index]);
+                              },
+                            ),
+                    )
+                )
+            )
+        );
   }
 }
 

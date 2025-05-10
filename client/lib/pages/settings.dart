@@ -18,6 +18,46 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+  // Helper method to create styled list items for settings
+  Widget _buildSettingsItem(
+      {required IconData icon, required String title, required VoidCallback onTap, Color? titleColor}) {
+    return GestureDetector(
+      onTap: onTap,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(10),
+        child: Container(
+          height: 60, // Standardized height
+          width: MediaQuery.of(context).size.width,
+          color: ReBealColor.ReBealDarkGrey,
+          padding: const EdgeInsets.symmetric(horizontal: 15.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Icon(icon, color: Colors.white, size: 22),
+                  SizedBox(width: 15),
+                  Text(
+                    title,
+                    style: TextStyle(
+                        color: titleColor ?? Colors.white,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 17),
+                  ),
+                ],
+              ),
+              Icon(
+                Icons.arrow_forward_ios,
+                size: 14,
+                color: ReBealColor.ReBealLightGrey,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     var state = Provider.of<AuthState>(context);
@@ -59,8 +99,9 @@ class _SettingsPageState extends State<SettingsPage> {
                             width: MediaQuery.of(context).size.width,
                             color: ReBealColor.ReBealDarkGrey,
                             alignment: Alignment.center,
+                            padding: const EdgeInsets.symmetric(horizontal: 15.0),
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Row(
                                   children: [
@@ -77,15 +118,13 @@ class _SettingsPageState extends State<SettingsPage> {
                                                       ?.profilePic ??
                                                   "https://i.pinimg.com/originals/f1/0f/f7/f10ff70a7155e5ab666bcdd1b45b726d.jpg"),
                                         )),
-                                    Container(
-                                      width: 10,
-                                    ),
+                                    SizedBox(width: 10),
                                     Text.rich(
                                       TextSpan(
                                         children: [
                                           TextSpan(
                                             text:
-                                                '${state.profileUserModel!.displayName}\n',
+                                                '${state.profileUserModel?.displayName ?? "User"}\n',
                                             style: TextStyle(
                                               color: Colors.white,
                                               fontSize: 20,
@@ -94,7 +133,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                           ),
                                           TextSpan(
                                             text:
-                                                '${state.profileUserModel!.userName}',
+                                                '${state.profileUserModel?.userName ?? "@username"}',
                                             style: TextStyle(
                                               color: Colors.white,
                                               fontSize: 14,
@@ -106,9 +145,6 @@ class _SettingsPageState extends State<SettingsPage> {
                                     ),
                                   ],
                                 ),
-                                Container(
-                                  width: 30,
-                                ),
                                 Icon(
                                   Icons.arrow_forward_ios_rounded,
                                   color: ReBealColor.ReBealLightGrey,
@@ -116,85 +152,61 @@ class _SettingsPageState extends State<SettingsPage> {
                                 )
                               ],
                             )))),
-                Container(
-                  height: 30,
+                SizedBox(height: 30),
+                Text(
+                  "Preferences",
+                  style: TextStyle(color: Color.fromARGB(255, 90, 90, 90), fontSize: 14, fontWeight: FontWeight.w500),
                 ),
+                SizedBox(height: 10),
+                _buildSettingsItem(
+                  icon: Icons.privacy_tip_outlined,
+                  title: "Account Privacy",
+                  onTap: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Account Privacy settings not yet implemented.')),
+                    );
+                  },
+                ),
+                SizedBox(height: 10),
+                _buildSettingsItem(
+                  icon: Icons.notifications_outlined,
+                  title: "Notification Preferences",
+                  onTap: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Notification Preferences not yet implemented.')),
+                    );
+                  },
+                ),
+                SizedBox(height: 30),
                 Text(
                   "About",
-                  style: TextStyle(color: Color.fromARGB(255, 65, 65, 65)),
+                  style: TextStyle(color: Color.fromARGB(255, 90, 90, 90), fontSize: 14, fontWeight: FontWeight.w500),
                 ),
-                Container(
-                  height: 5,
-                ),
-                GestureDetector(
-                    onTap: () {
-                      Share.share(
-                        "rebe.al/${state.profileUserModel!.userName!.replaceAll("@", "").toLowerCase()}",
+                SizedBox(height: 10),
+                _buildSettingsItem(
+                  icon: CupertinoIcons.share,
+                  title: "Share ReBeal",
+                  onTap: () {
+                     Share.share(
+                        "rebe.al/${state.profileUserModel?.userName?.replaceAll("@", "").toLowerCase() ?? "profile"}",
                         subject: "Add me on ReBeal.",
                         sharePositionOrigin: Rect.fromLTWH(0, 0, 10, 10),
                       );
-                    },
-                    child: ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: Container(
-                            height: 50,
-                            width: MediaQuery.of(context).size.width,
-                            color: ReBealColor.ReBealDarkGrey,
-                            alignment: Alignment.center,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Container(
-                                  width: 10,
-                                ),
-                                Icon(CupertinoIcons.share),
-                                Text(
-                                  "Share ReBeal",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 17),
-                                ),
-                                Container(
-                                  width: 100,
-                                ),
-                                Icon(
-                                  Icons.arrow_forward_ios,
-                                  size: 14,
-                                  color: ReBealColor.ReBealLightGrey,
-                                ),
-                                Container(
-                                  width: 10,
-                                ),
-                              ],
-                            )))),
-                Container(
-                  height: 30,
+                  }
                 ),
-                GestureDetector(
-                    onTap: () {
+                SizedBox(height: 30),
+                _buildSettingsItem(
+                  icon: Icons.logout,
+                  title: "Log out",
+                  titleColor: Colors.red,
+                  onTap: () {
                       state.logoutCallback();
-                      Navigator.pop(context);
-                      Navigator.pop(context);
-                    },
-                    child: ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: Container(
-                          height: 50,
-                          width: MediaQuery.of(context).size.width,
-                          color: ReBealColor.ReBealDarkGrey,
-                          alignment: Alignment.center,
-                          child: Text(
-                            "Log out",
-                            style: TextStyle(
-                                color: Colors.red,
-                                fontWeight: FontWeight.w500,
-                                fontSize: 17),
-                          ),
-                        ))),
-                Container(
-                  height: 20,
+                      // Pop twice if settings is on top of profile which is on top of home
+                      if(Navigator.canPop(context)) Navigator.pop(context);
+                      if(Navigator.canPop(context)) Navigator.pop(context);
+                  }
                 ),
+                SizedBox(height: 20),
                 Text(
                   "Version 1.0.0 (1) - Clone Version",
                   textAlign: TextAlign.center,
@@ -203,19 +215,16 @@ class _SettingsPageState extends State<SettingsPage> {
                       fontWeight: FontWeight.w300,
                       fontSize: 15),
                 ),
-                Container(
-                  height: 40,
-                ),
+                SizedBox(height: 10),
                 Text(
-                  "You join BeReal on a few days ago" +
-                      Utility.getdob(
-                          state.profileUserModel!.createAt.toString()),
+                  "You joined BeReal ${Utility.getdob(state.profileUserModel?.createAt?.toString() ?? DateTime.now().toIso8601String())}", // Added null checks
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w300,
                       fontSize: 15),
-                )
+                ),
+                SizedBox(height: 40), // Ensure content doesn't hide behind bottom nav if any
               ],
             )));
   }
